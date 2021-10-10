@@ -8,10 +8,9 @@ import 'package:provider/provider.dart';
 
 import 'analytics_details.dart';
 
-import '../../../widgets/blue_bubble_design.dart';
 import '../../../widgets/constants.dart';
 import '../../../widgets/alert_dialogs.dart';
-import '../../../drawers_constants/admin_drawer.dart';
+import '../../../drawers_constants/drawer.dart';
 import '../../../models/User.dart';
 
 // ignore: must_be_immutable
@@ -264,7 +263,6 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   Stack(
                     children: <Widget>[
                       // top-left corner intersecting circles design
-                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,

@@ -9,15 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/User.dart';
 import 'screens/about_us/about_us.dart';
-import 'screens/admin/approval/approval.dart';
 import 'screens/admin/analytics/analytics.dart';
 import 'screens/admin/events/admin_events.dart';
-import 'screens/admin/user_profiles/search_user.dart';
 import 'screens/authentication/login.dart';
 import 'screens/authentication/register.dart';
 import 'screens/contact_us/contact_us.dart';
 import 'screens/events/user_events.dart';
-import 'screens/initiatives/initiatives.dart';
 import 'screens/onboarding.dart';
 import 'screens/success_stories/success_stories.dart';
 import 'services/class_builder.dart';
@@ -40,13 +37,10 @@ void main() async {
           '/login': (BuildContext context) => LoginScreen(),
           "/events": (context) => Events(),
           "/admin_events": (context) => Discussions(),
-          "/initiatives": (context) => Initiatives(),
           "/success_stories": (context) => SuccessStories(),
           "/about_us": (context) => AboutUs(),
           "/contact_us": (context) => ContactUs(),
           "/analytics": (context) => AnalyticsScreen(),
-          "/approval": (context) => ApprovalScreen(),
-          "/user_profiles": (context) => SearchUser()
         },
       ),
     ),
@@ -107,13 +101,11 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
               userdata['memberRole'],
               userdata['placeOfWork']);
         }
-        if (userdata['memberRole'] == "Admin") {
           Navigator.of(context).pushReplacement(
-              new MaterialPageRoute(builder: (context) => new Discussions()));
-        } else {
+              new MaterialPageRoute(builder: (context) => new LoginScreen()));
           Navigator.of(context).pushReplacement(
-              new MaterialPageRoute(builder: (context) => new Events()));
-        }
+              new MaterialPageRoute(builder: (context) => new LoginScreen()));
+        
       } else {
         Navigator.of(context).pushReplacement(
             new MaterialPageRoute(builder: (context) => new LoginScreen()));

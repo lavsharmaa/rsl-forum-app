@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../../../widgets/blue_bubble_design.dart';
 import '../../../widgets/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -72,7 +71,6 @@ class _AdminEditEventImageState extends State<AdminEditEventImage> {
                 Stack(
                   // circle design
                   children: <Widget>[
-                    MainPageBlueBubbleDesign(),
                     IconButton(
                       icon: Icon(
                         Icons.arrow_back,

@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'admin_edit_event_image.dart';
-
-import '../../../widgets/blue_bubble_design.dart';
 import '../../../widgets/constants.dart';
 import '../../../widgets/gradient_button.dart';
 
@@ -261,7 +259,6 @@ class _EditEventScreenState extends State<EditEventScreen> {
                   // circle design and Title
                   Stack(
                     children: <Widget>[
-                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,

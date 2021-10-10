@@ -14,36 +14,16 @@ List<MenuItem> items = [
   ),
   MenuItem<int>(
     id: 1,
-    title: 'Events',
+    title: 'Discussions',
     prefix: Icon(Icons.event),
   ),
   MenuItem<int>(
     id: 2,
-    title: 'Initiatives',
-    prefix: Icon(Icons.follow_the_signs_sharp),
-  ),
-  MenuItem<int>(
-    id: 3,
-    title: 'Success Stories',
-    prefix: Icon(Icons.star),
-  ),
-  MenuItem<int>(
-    id: 4,
     title: 'Contact Us',
     prefix: Icon(Icons.quick_contacts_mail),
   ),
   MenuItem<int>(
-    id: 5,
-    title: 'Analytics',
-    prefix: Icon(Icons.insert_chart),
-  ),
-  MenuItem<int>(
-    id: 6,
-    title: 'Approval',
-    prefix: Icon(Icons.verified_user),
-  ),
-  MenuItem<int>(
-    id: 7,
+    id: 3,
     title: 'User Profiles',
     prefix: Icon(Icons.person),
   ),
@@ -68,21 +48,9 @@ void selectedItem(BuildContext context, int index) {
       Navigator.pushNamed(context, "/admin_events");
       break;
     case 2:
-      Navigator.pushNamed(context, "/initiatives");
-      break;
-    case 3:
-      Navigator.pushNamed(context, "/success_stories");
-      break;
-    case 4:
       Navigator.pushNamed(context, "/contact_us");
       break;
-    case 5:
-      Navigator.pushNamed(context, "/analytics");
-      break;
-    case 6:
-      Navigator.pushNamed(context, "/approval");
-      break;
-    case 7:
+    case 3:
       Navigator.pushNamed(context, "/user_profiles");
       break;
   }
@@ -99,31 +67,6 @@ Widget header(BuildContext context, var userInfo) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          // Text(
-          //   'YWCA Of Bombay',
-          //   textAlign: TextAlign.left,
-          //   style: TextStyle(
-          //     fontSize: 22,
-          //     color: Colors.black,
-          //     fontFamily: 'LobsterTwo',
-          //     fontStyle: FontStyle.italic,
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
-          // SizedBox(height: 5),
-          // CircleAvatar(
-          //   radius: 50.0,
-          //   backgroundImage: AssetImage("assets/images/logo.png"),
-          // ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Image(
-                image: AssetImage("assets/images/logo-with-text-round.png"),
-              ),
-            ),
-          ),
           SizedBox(height: 15),
           Text(
             'Welcome ' + userInfo.getfirstName,
@@ -199,7 +142,7 @@ Widget footer(
           height: 10,
         ),
         Text(
-          'Developed by DBIT SevaTech',
+          'Developed by DBIT',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,

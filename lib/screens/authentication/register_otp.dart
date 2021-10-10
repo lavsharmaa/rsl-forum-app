@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'register.dart';
 import '../../models/User.dart';
 import '../../screens/events/user_events.dart';
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/gradient_button.dart';
 
@@ -212,8 +211,6 @@ class _RegisterOtpState extends State<RegisterOtp>
       children: <Widget>[
         Stack(
           children: <Widget>[
-            // circle design
-            MainPageBlueBubbleDesign(),
             Positioned(
               child: AppBar(
                 centerTitle: true,

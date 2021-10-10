@@ -4,10 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../drawers_constants/admin_drawer.dart';
+import '../../../drawers_constants/drawer.dart';
 import '../../../models/User.dart';
 import '../../../widgets/constants.dart';
-import '../../../widgets/blue_bubble_design.dart';
 
 class AnalyticsDetail extends StatefulWidget {
   String eventId, eventName, eventDate;
@@ -105,7 +104,6 @@ class _AnalyticsDetailState extends State<AnalyticsDetail> {
         child: Center(
           child: Stack(
             children: <Widget>[
-              EventPageBlueBubbleDesign(),
               Positioned(
                 child: AppBar(
                   centerTitle: true,

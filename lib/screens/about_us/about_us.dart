@@ -4,13 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'become_member.dart';
-
-import '../../drawers_constants/user_drawer.dart' as UserDrawer;
-import '../../drawers_constants/admin_drawer.dart' as AdminDrawer;
+import '../../drawers_constants/drawer.dart' as Drawer;
 import '../../models/User.dart';
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
 import '../../widgets/gradient_button.dart';
@@ -27,15 +22,11 @@ class _AboutUsState extends State<AboutUs> {
     'assets/images/about_us/Ywca_spotlight_1.jpg',
     'assets/images/about_us/Ywca_spotlight_2.jpg',
     'assets/images/about_us/Ywca_spotlight_3.jpg',
-    'assets/images/about_us/Ywca_spotlight_4.jpg',
-    'assets/images/about_us/Ywca_spotlight_5.jpg',
   ];
   final imageTitleList = [
-    'Empowering Women',
-    'Empowering through Vocations',
-    'Empowering through Education',
-    'Empowering the Underprivileged',
-    'Empowering the Forgotten',
+    'Samuel Monteiro',
+    'Lav Sharma',
+    'Rutuja Bhate',
   ];
 
   final DrawerScaffoldController controller = DrawerScaffoldController();
@@ -47,7 +38,7 @@ class _AboutUsState extends State<AboutUs> {
 
   @override
   void initState() {
-    selectedMenuItemId = UserDrawer.menuWithIcon.items[0].id;
+    selectedMenuItemId = Drawer.menuWithIcon.items[0].id;
     userInfo = Provider.of<UserData>(context, listen: false);
     super.initState();
   }
@@ -65,34 +56,34 @@ class _AboutUsState extends State<AboutUs> {
               ? // ADMIN DRAWER
               SideDrawer(
                   percentage: 0.75, // main screen height proportion
-                  headerView: AdminDrawer.header(context, userInfo),
-                  footerView: AdminDrawer.footer(context, controller, userInfo),
+                  headerView: Drawer.header(context, userInfo),
+                  footerView: Drawer.footer(context, controller, userInfo),
                   color: successStoriesCardBgColor,
                   selectorColor: Colors.indigo[600],
-                  menu: AdminDrawer.menuWithIcon,
+                  menu: Drawer.menuWithIcon,
                   animation: true,
                   selectedItemId: selectedMenuItemId,
                   onMenuItemSelected: (itemId) {
                     setState(() {
                       selectedMenuItemId = itemId;
-                      AdminDrawer.selectedItem(context, itemId);
+                      Drawer.selectedItem(context, itemId);
                     });
                   },
                 )
               : // DRAWER FOR OTHER ROLES
               SideDrawer(
                   percentage: 0.75, // main screen height proportion
-                  headerView: UserDrawer.header(context, userInfo),
-                  footerView: UserDrawer.footer(context, controller, userInfo),
+                  headerView: Drawer.header(context, userInfo),
+                  footerView: Drawer.footer(context, controller, userInfo),
                   color: successStoriesCardBgColor,
                   selectorColor: Colors.indigo[600],
-                  menu: UserDrawer.menuWithIcon,
+                  menu: Drawer.menuWithIcon,
                   animation: true,
                   selectedItemId: selectedMenuItemId,
                   onMenuItemSelected: (itemId) {
                     setState(() {
                       selectedMenuItemId = itemId;
-                      UserDrawer.selectedItem(context, itemId);
+                      Drawer.selectedItem(context, itemId);
                     });
                   },
                 ),
@@ -104,12 +95,11 @@ class _AboutUsState extends State<AboutUs> {
               children: <Widget>[
                 Stack(
                   children: <Widget>[
-                    MainPageBlueBubbleDesign(),
                     Positioned(
                       child: AppBar(
                         centerTitle: true,
                         title: Text(
-                          "YWCA OF BOMBAY",
+                          "RSL Forum",
                           style: TextStyle(
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w800,
@@ -278,14 +268,6 @@ class _AboutUsState extends State<AboutUs> {
                               fontFamily: 'Montserrat',
                             ),
                           ),
-                          Text(
-                            'The YWCA of Bombay is registered under the societies registration act, 1860 under no. 44 dated 06-08-1952 and of the Bombay public trust act, 1950 under no. F/388 (BOM.) dated 13-07-1953.',
-                            style: TextStyle(
-                              fontSize: 16,
-                              height: 1.25,
-                              fontFamily: 'Montserrat',
-                            ),
-                          ),
                           // ),
                           SizedBox(
                             height: _height * 0.010,
@@ -303,7 +285,7 @@ class _AboutUsState extends State<AboutUs> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       text:
-                                          "To learn more, visit our website:\n",
+                                          "To learn more, visit our github repo:\n",
                                     ),
                                     TextSpan(
                                       style: TextStyle(
@@ -323,53 +305,11 @@ class _AboutUsState extends State<AboutUs> {
                                           }
                                         },
                                     ),
-                                    TextSpan(
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      text: "\nFacebook page:\n",
-                                    ),
-                                    TextSpan(
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                      text: "www.facebook.com/ywcabombay",
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () async {
-                                          var url =
-                                              "https://www.facebook.com/ywcabombay";
-                                          if (await canLaunch(url)) {
-                                            await launch(url);
-                                          } else {
-                                            throw 'Could not launch $url';
-                                          }
-                                        },
-                                    ),
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: _height * 0.015,
-                          ),
-                          if (role == "NonMember") ...[
-                            GradientButton(
-                              buttonText: 'Become a member today!',
-                              screenHeight: _height,
-                              onPressedFunction: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BecomeMemberScreen(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
                           SizedBox(height: _height * 0.020),
                         ],
                       ),

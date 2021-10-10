@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share/share.dart';
-
-import '../../../widgets/blue_bubble_design.dart';
 import '../../../widgets/zoom_image.dart';
 
 // ignore: must_be_immutable
@@ -170,7 +168,6 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
           child: Container(
             child: Column(
               children: <Widget>[
-                AdminDetailPageBlueBubbleDesign(),
                 SizedBox(
                   height: _height * 0.05,
                 ),

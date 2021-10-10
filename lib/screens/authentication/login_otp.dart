@@ -9,8 +9,6 @@ import 'login.dart';
 import '../../models/User.dart';
 import '../../screens/events/user_events.dart';
 import '../../screens/admin/events/admin_events.dart';
-
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/gradient_button.dart';
 

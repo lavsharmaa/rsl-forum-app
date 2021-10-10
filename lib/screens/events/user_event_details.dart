@@ -7,10 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'user_events.dart';
-
-import '../about_us/become_member.dart';
 import '../../models/User.dart';
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
 import '../../widgets/zoom_image.dart';
@@ -184,7 +181,6 @@ class _DetailPageState extends State<DetailPage> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                AdminDetailPageBlueBubbleDesign(),
 
                 // show it when the event is for members and the user is not a member
                 // then become a member button is show
@@ -193,7 +189,6 @@ class _DetailPageState extends State<DetailPage> {
                       padding: EdgeInsets.fromLTRB(_width * 0.35, 0, 0, 0),
                       child: ElevatedButton(
                         onPressed: () {
-                          goToBecomeMember(context);
                         },
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xFF00bbe4),
@@ -382,45 +377,6 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ],
-                      if (role == 'NonMember' &&
-                          eventType == 'Members only' &&
-                          eventDeadline.compareTo(now) >= 0) ...[
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: _height * 0.015,
-                          ),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                firstButtonGradientColor,
-                                firstButtonGradientColor,
-                                secondButtonGradientColor
-                              ],
-                              begin: FractionalOffset.centerLeft,
-                              end: FractionalOffset.centerRight,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                          ),
-                          child: FractionallySizedBox(
-                            widthFactor: 1,
-                            child: TextButton(
-                              child: Text(
-                                'Become a Member',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onPressed: () {
-                                goToBecomeMember(context);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
                       if (eventType == 'Everyone' &&
                           eventDeadline.compareTo(now) >= 0) ...[
                         Container(
@@ -498,12 +454,5 @@ goBackToPreviousScreen(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => Events()),
-  );
-}
-
-goToBecomeMember(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => BecomeMemberScreen()),
   );
 }

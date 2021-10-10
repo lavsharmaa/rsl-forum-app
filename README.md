@@ -8,3 +8,7 @@ A new Flutter project.
 - Create Post
 - View Post
 - Detail Post
+
+## v0.1.1
+- About us (Text pending)
+- Contact us (Formatting pending)

@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
-
-import '../widgets/blue_bubble_design.dart';
 import '../widgets/constants.dart';
 import '../widgets/gradient_button.dart';
 import '../models/User.dart';
@@ -50,28 +48,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _genderRadioValue = value!;
       if (_genderRadioValue == 0) {
         gender = "Female";
-      } else if (_genderRadioValue == 1) {
-        gender = "Male";
       } else {
-        gender = "Decline to state";
+        gender = "Male";
       }
       print("gender selected: $gender");
-    });
-  }
-
-  // yes-0, no-1, maybe-2
-  late int _interestInMembershipRadioValue;
-  void _handleInterestInMembershipRadioValueChange(int? value) {
-    setState(() {
-      _interestInMembershipRadioValue = value!;
-      if (_interestInMembershipRadioValue == 0) {
-        interestInMembership = "Yes";
-      } else if (_interestInMembershipRadioValue == 1) {
-        interestInMembership = "No";
-      } else {
-        interestInMembership = "Maybe";
-      }
-      print("Membership interest selected: $interestInMembership");
     });
   }
 
@@ -171,25 +151,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     phoneNumber = userInfo.getphoneNumber;
     dateOfBirth = userInfo.getdateOfBirth;
     gender = userInfo.getgender;
-    nearestCenter = userInfo.getnearestCenter;
     placeOfWork = userInfo.getplaceOfWork;
-    profession = userInfo.getprofession;
-    interestInMembership = userInfo.getinterestInMembership;
-    role = userInfo.getmemberRole;
-    address = userInfo.getaddress;
     if (gender == "Male") {
       _genderRadioValue = 1;
     } else if (gender == "Female") {
       _genderRadioValue = 0;
     } else {
       _genderRadioValue = 2;
-    }
-    if (interestInMembership == "No") {
-      _interestInMembershipRadioValue = 1;
-    } else if (interestInMembership == "Yes") {
-      _interestInMembershipRadioValue = 0;
-    } else {
-      _interestInMembershipRadioValue = 2;
     }
     dateController.text =
         DateFormat('dd-MM-yyyy').format(userInfo.getdateOfBirth);
@@ -217,12 +185,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   // circle design and Title
                   Stack(
                     children: <Widget>[
-                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "YWCA OF BOMBAY",
+                            "RSL Forum",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,
@@ -744,93 +711,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 fontFamily: 'Montserrat',
                               ),
                             ),
-                          if (role == "NonMember")
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Radio(
-                                  value: 0,
-                                  groupValue: _interestInMembershipRadioValue,
-                                  onChanged:
-                                      _handleInterestInMembershipRadioValueChange,
-                                  focusColor: secondaryColor,
-                                  hoverColor: secondaryColor,
-                                  activeColor: secondaryColor,
-                                ),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _interestInMembershipRadioValue = 0;
-                                        _handleInterestInMembershipRadioValueChange(
-                                            _interestInMembershipRadioValue);
-                                      });
-                                    },
-                                    child: Text(
-                                      'Yes',
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Radio(
-                                  value: 1,
-                                  groupValue: _interestInMembershipRadioValue,
-                                  onChanged:
-                                      _handleInterestInMembershipRadioValueChange,
-                                  focusColor: secondaryColor,
-                                  hoverColor: secondaryColor,
-                                  activeColor: secondaryColor,
-                                ),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _interestInMembershipRadioValue = 1;
-                                        _handleInterestInMembershipRadioValueChange(
-                                            _interestInMembershipRadioValue);
-                                      });
-                                    },
-                                    child: Text(
-                                      'No',
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Radio(
-                                  value: 2,
-                                  groupValue: _interestInMembershipRadioValue,
-                                  onChanged:
-                                      _handleInterestInMembershipRadioValueChange,
-                                  focusColor: secondaryColor,
-                                  hoverColor: secondaryColor,
-                                  activeColor: secondaryColor,
-                                ),
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _interestInMembershipRadioValue = 2;
-                                        _handleInterestInMembershipRadioValueChange(
-                                            _interestInMembershipRadioValue);
-                                      });
-                                    },
-                                    child: Text(
-                                      'Maybe',
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           SizedBox(height: _height * 0.005),
                           GradientButton(
                             buttonText: 'Update Profile',
@@ -856,14 +736,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       "dateOfBirth": dateOfBirth,
                                       "emailId": email,
                                       "gender": gender,
-                                      "profession": profession,
                                       "placeOfWork": placeOfWork,
-                                      "nearestCenter": nearestCenter,
-                                      "interestInMembership":
-                                          interestInMembership,
                                       "uid": uid,
                                       "phoneNumber": userInfo.getphoneNumber,
-                                      "memberRole": userInfo.getmemberRole,
                                       "approvalStatus": "pending"
                                     })
                                     .then((value) =>
@@ -883,13 +758,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   "dateOfBirth": dateOfBirth,
                                   "emailId": email,
                                   "gender": gender,
-                                  "profession": profession,
                                   "placeOfWork": placeOfWork,
-                                  "nearestCenter": nearestCenter,
-                                  "interestInMembership": interestInMembership,
                                   "uid": uid,
                                   "phoneNumber": userInfo.getphoneNumber,
-                                  "memberRole": userInfo.getmemberRole,
                                 }).then((value) async {
                                   await userInfo.updateAfterAuth(
                                       uid,
@@ -899,12 +770,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       email,
                                       phoneNumber,
                                       gender,
-                                      profession,
-                                      placeOfWork,
-                                      nearestCenter,
-                                      interestInMembership,
-                                      userInfo.getmemberRole,
-                                      address);
+                                      placeOfWork);
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 }).catchError((error) =>

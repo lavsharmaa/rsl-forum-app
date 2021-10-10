@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import './admin/events/admin_events.dart';
 import './edit_profile.dart';
 import './events/user_events.dart';
-
-import '../widgets/blue_bubble_design.dart';
 import '../widgets/constants.dart';
 import '../widgets/gradient_button.dart';
 import '../models/User.dart';
@@ -39,12 +37,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
     var emailId = userInfo.getemailId;
     var dateOfBirth = DateFormat('dd-MM-yyyy').format(userInfo.getdateOfBirth);
     var gender = userInfo.getgender;
-    var nearestCenter = userInfo.getnearestCenter;
     var placeOfWork = userInfo.getplaceOfWork;
-    var profession = userInfo.getprofession;
-    var interestInMembership = userInfo.getinterestInMembership;
-    var address = userInfo.getaddress;
-    var role = userInfo.getmemberRole;
 
     return Scaffold(
       body: SafeArea(
@@ -53,12 +46,11 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
           children: [
             Stack(
               children: <Widget>[
-                MainPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,
                     title: Text(
-                      "YWCA OF BOMBAY",
+                      "RSL Forum",
                       style: TextStyle(
                         fontFamily: 'Raleway',
                         fontWeight: FontWeight.w800,
@@ -75,17 +67,10 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                         size: 30,
                       ),
                       onPressed: () {
-                        if (role == "Admin") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Discussions()));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Events()));
-                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Discussions()));
                       },
                     ),
                   ),
@@ -139,24 +124,13 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                       SizedBox(height: _height * 0.03),
                       //greetings
                       Text(
-                        'Hello $firstName, thanks for submitting your info!',
+                        'Hello $firstName!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Montserrat',
                         ),
                       ),
-                      SizedBox(height: _height * 0.02),
-                      if (role != "Staff") ...[
-                        Text(
-                          'You can choose to edit this information by clicking the button at the bottom.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ],
                       SizedBox(height: _height * 0.04),
                       //main_body
                       Container(
@@ -173,31 +147,16 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                             // Email id
                             DetailText(text: 'Email ID: $emailId'),
                             SizedBox(height: 15),
-                            // Address
-                            DetailText(text: 'Address: $address'),
-                            SizedBox(height: 15),
                             // Date of birth
                             DetailText(text: 'Date Of Birth: $dateOfBirth'),
                             SizedBox(height: 15),
                             // Gender
                             DetailText(text: 'Gender: $gender'),
                             SizedBox(height: 15),
-                            // Nearest center
-                            DetailText(
-                                text: 'Nearest YWCA Centre: $nearestCenter'),
-                            SizedBox(height: 15),
                             // Place of work/school/college
                             DetailText(
                                 text: 'Institute/Organization: $placeOfWork'),
                             SizedBox(height: 15),
-                            // Profession
-                            DetailText(text: 'Profession: $profession'),
-                            SizedBox(height: 15),
-                            // Interest in membership
-                            if (role != "Member")
-                              DetailText(
-                                  text:
-                                      'Interested in being a member: $interestInMembership'),
                           ],
                         ),
                         decoration: const BoxDecoration(
@@ -205,42 +164,6 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                           color: Color(0x1A49DEE8),
                         ),
                       ),
-                      SizedBox(height: _height * 0.02),
-                      if (role == "Staff") ...[
-                        Text(
-                          'Kindly contact the admin if you wish to make changes to your profile',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ],
-                      if (role == "Member") ...[
-                        Text(
-                          'Kindly contact the admin for approval AFTER you make changes to your profile',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                      ],
-                      SizedBox(height: _height * 0.02),
-                      if (role != "Staff") ...[
-                        GradientButton(
-                          buttonText: 'Edit Profile',
-                          screenHeight: _height,
-                          onPressedFunction: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditProfileScreen()));
-                          },
-                        )
-                      ],
                       SizedBox(height: _height * 0.02),
                     ],
                   ),

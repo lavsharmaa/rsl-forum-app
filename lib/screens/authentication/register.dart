@@ -8,7 +8,6 @@ import 'login.dart';
 import 'register_otp.dart';
 
 import '../../models/User.dart';
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
 import '../../widgets/gradient_button.dart';

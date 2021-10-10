@@ -2,11 +2,8 @@ import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../widgets/blue_bubble_design.dart';
 import 'constants.dart';
-import '../../drawers_constants/user_drawer.dart' as UserDrawer;
-import '../../drawers_constants/admin_drawer.dart' as AdminDrawer;
+import '../../drawers_constants/drawer.dart' as Drawer;
 import '../../models/User.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
@@ -31,7 +28,7 @@ class _SuccessStoriesState extends State<SuccessStories> {
     // } else {
     //   selectedMenuItemId = UserDrawer.menuWithIcon.items[3].id;
     // }
-    selectedMenuItemId = UserDrawer.menuWithIcon.items[3].id;
+    selectedMenuItemId = Drawer.menuWithIcon.items[3].id;
     userInfo = Provider.of<UserData>(context, listen: false);
     super.initState();
   }
@@ -63,34 +60,34 @@ class _SuccessStoriesState extends State<SuccessStories> {
               ? // ADMIN DRAWER
               SideDrawer(
                   percentage: 0.75, // main screen height proportion
-                  headerView: AdminDrawer.header(context, userInfo),
-                  footerView: AdminDrawer.footer(context, controller, userInfo),
+                  headerView: Drawer.header(context, userInfo),
+                  footerView: Drawer.footer(context, controller, userInfo),
                   color: successStoriesCardBgColor,
                   selectorColor: Colors.indigo[600],
-                  menu: AdminDrawer.menuWithIcon,
+                  menu: Drawer.menuWithIcon,
                   animation: true,
                   selectedItemId: selectedMenuItemId,
                   onMenuItemSelected: (itemId) {
                     setState(() {
                       selectedMenuItemId = itemId;
-                      AdminDrawer.selectedItem(context, itemId);
+                      Drawer.selectedItem(context, itemId);
                     });
                   },
                 )
               : // DRAWER FOR OTHER ROLES
               SideDrawer(
                   percentage: 0.75, // main screen height proportion
-                  headerView: UserDrawer.header(context, userInfo),
-                  footerView: UserDrawer.footer(context, controller, userInfo),
+                  headerView: Drawer.header(context, userInfo),
+                  footerView: Drawer.footer(context, controller, userInfo),
                   color: successStoriesCardBgColor,
                   selectorColor: Colors.indigo[600],
-                  menu: UserDrawer.menuWithIcon,
+                  menu: Drawer.menuWithIcon,
                   animation: true,
                   selectedItemId: selectedMenuItemId,
                   onMenuItemSelected: (itemId) {
                     setState(() {
                       selectedMenuItemId = itemId;
-                      UserDrawer.selectedItem(context, itemId);
+                      Drawer.selectedItem(context, itemId);
                     });
                   },
                 ),
@@ -104,7 +101,6 @@ class _SuccessStoriesState extends State<SuccessStories> {
                   // circle design
 
                   children: <Widget>[
-                    MainPageBlueBubbleDesign(),
                     // Positioned(
                     //   child: Image.asset("assets/images/circle-design.png"),
                     // ),
