@@ -24,3 +24,9 @@ Checked and working fine
 - Post Detail
 - Contact Us
 - About Us
+
+# v0.1.3
+- Your posts
+- Edit your post
+- Delete your post
+- Code cleaned and unwanted code removed

@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
-
-import '../widgets/blue_bubble_design.dart';
 import '../widgets/constants.dart';
 import '../widgets/gradient_button.dart';
 import '../models/User.dart';
@@ -297,8 +295,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           TextFormField(
                             readOnly: true,
                             onChanged: (value) {
-                              setState(() {
-                              });
+                              setState(() {});
                             },
                             controller: dateController,
                             decoration: InputDecoration(
@@ -525,35 +522,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               }
                               _formKey.currentState!.save();
 
-                                print("updating as it is non-member");
-                                await FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(uid)
-                                    .update({
-                                  "firstName": firstName,
-                                  "lastName": lastName,
-                                  "dateOfBirth": dateOfBirth,
-                                  "emailId": email,
-                                  "gender": gender,
-                                  "placeOfWork": placeOfWork,
-                                  "uid": uid,
-                                  "phoneNumber": userInfo.getphoneNumber,
-                                  "memberRole": userInfo.getmemberRole,
-                                }).then((value) async {
-                                  await userInfo.updateAfterAuth(
-                                      uid,
-                                      firstName,
-                                      lastName,
-                                      dateOfBirth,
-                                      email,
-                                      phoneNumber,
-                                      gender,
-                                      placeOfWork,
-                                      userInfo.getmemberRole);
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                }).catchError((error) =>
-                                        print("Failed to update user: $error"));
+                              print("updating as it is non-member");
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(uid)
+                                  .update({
+                                "firstName": firstName,
+                                "lastName": lastName,
+                                "dateOfBirth": dateOfBirth,
+                                "emailId": email,
+                                "gender": gender,
+                                "placeOfWork": placeOfWork,
+                                "uid": uid,
+                                "phoneNumber": userInfo.getphoneNumber,
+                                "memberRole": userInfo.getmemberRole,
+                              }).then((value) async {
+                                await userInfo.updateAfterAuth(
+                                    uid,
+                                    firstName,
+                                    lastName,
+                                    dateOfBirth,
+                                    email,
+                                    phoneNumber,
+                                    gender,
+                                    placeOfWork,
+                                    userInfo.getmemberRole);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }).catchError((error) =>
+                                      print("Failed to update user: $error"));
                               // }
 
                               // Navigator.pop(context);

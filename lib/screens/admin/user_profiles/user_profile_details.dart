@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import './edit_user_profile.dart';
 import '../posts/admin_events.dart';
-import '../../../widgets/blue_bubble_design.dart';
 import '../../../widgets/constants.dart';
 import '../../../widgets/gradient_button.dart';
 
@@ -65,12 +64,11 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
           children: [
             Stack(
               children: <Widget>[
-                MainPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,
                     title: Text(
-                      "YWCA OF BOMBAY",
+                      "RSL Forum",
                       style: TextStyle(
                         fontFamily: 'Raleway',
                         fontWeight: FontWeight.w800,

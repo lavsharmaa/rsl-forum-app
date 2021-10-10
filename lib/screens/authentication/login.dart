@@ -4,13 +4,10 @@ import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
-
 import 'login_otp.dart';
 import 'register.dart';
-
 import '../../models/User.dart';
 import '../../widgets/alert_dialogs.dart';
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/gradient_button.dart';
 
@@ -108,13 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
-                      // circle design
-                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "YWCA OF BOMBAY",
+                            "RSL Forum",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,

@@ -9,17 +9,9 @@ import '../../../widgets/zoom_image.dart';
 
 // ignore: must_be_immutable
 class AdminEventDetailPage extends StatefulWidget {
-  String id,
-      postTitle,
-      postDescription,
-      postCategory,
-      postImageUrl,
-      postAuthor;
-  int postClickCount, 
-  postCommentCount,
-  postLikeCount;
+  String id, postTitle, postDescription, postCategory, postImageUrl, postAuthor;
+  int postClickCount, postCommentCount, postLikeCount;
   DateTime postDate;
-  
 
   AdminEventDetailPage({
     required this.id,
@@ -108,18 +100,17 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
     // fetching the values
     id = widget.id;
     String postTitle = widget.postTitle,
-      postDescription = widget.postDescription,
-      postCategory = widget.postCategory,
-      postImageUrl = widget.postImageUrl,
-      postAuthor = widget.postAuthor;
-  int postClickCount = widget.postClickCount, 
-  postCommentCount = widget.postCommentCount,
-  postLikeCount = widget.postLikeCount;
-  DateTime date = widget.postDate;
+        postDescription = widget.postDescription,
+        postCategory = widget.postCategory,
+        postImageUrl = widget.postImageUrl,
+        postAuthor = widget.postAuthor;
+    int postClickCount = widget.postClickCount,
+        postCommentCount = widget.postCommentCount,
+        postLikeCount = widget.postLikeCount;
+    DateTime date = widget.postDate;
 
     // event date conversion to string for displaying
-    String formattedDate =
-        DateFormat('dd MMM, yyyy', 'en').format(date);
+    String formattedDate = DateFormat('dd MMM, yyyy', 'en').format(date);
 
     return Scaffold(
       appBar: AppBar(
@@ -145,8 +136,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
             onPressed: () {
               final RenderBox box = context.findRenderObject() as RenderBox;
               Share.share(
-                  "Title: $postTitle" +
-                      "\nDescription: $postDescription",
+                  "Title: $postTitle" + "\nDescription: $postDescription",
                   sharePositionOrigin:
                       box.localToGlobal(Offset.zero) & box.size);
             },
@@ -207,8 +197,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                                 child: Icon(Icons.calendar_today_outlined),
                               ),
                               TextSpan(
-                                text:
-                                    " " + formattedDate,
+                                text: " " + formattedDate,
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 18,

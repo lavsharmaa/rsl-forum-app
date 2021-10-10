@@ -48,7 +48,7 @@ void selectedItem(BuildContext context, int index) {
       Navigator.pushNamed(context, "/admin_events");
       break;
     case 2:
-      Navigator.pushNamed(context, "/about_us");
+      Navigator.pushNamed(context, "/edit_post");
       break;
     case 3:
       Navigator.pushNamed(context, "/contact_us");

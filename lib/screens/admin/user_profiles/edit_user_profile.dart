@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'search_user.dart';
-import '../../../../widgets/blue_bubble_design.dart';
 import '../../../../widgets/constants.dart';
 import '../../../../widgets/gradient_button.dart';
 
@@ -212,15 +210,13 @@ class _EditUserProfileState extends State<EditUserProfile> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // circle design and Title
                   Stack(
                     children: <Widget>[
-                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "YWCA OF BOMBAY",
+                            "RSL Forum",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,
@@ -694,19 +690,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                 "placeOfWork": placeOfWork,
                                 "uid": uid,
                                 "memberRole": userRole,
-                              }).then((value) async {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SearchUser()),
-                                    (route) => false);
-                              }).catchError(
-                                (error) =>
-                                    print("Failed to update user: $error"),
-                              );
-
-                              // Navigator.pop(context);
-                              // Navigator.pop(context);
+                              });
                             },
                           ),
                           SizedBox(

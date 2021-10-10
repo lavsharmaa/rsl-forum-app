@@ -99,7 +99,7 @@ class _AdminNewEventState extends State<AdminNewEvent> {
       'postLikeCount': 0,
       'postCommentCount': 0,
       'postClickCount': 0,
-      'authoUid': userID,
+      'authorUid': userID,
     });
   }
 
@@ -139,7 +139,6 @@ class _AdminNewEventState extends State<AdminNewEvent> {
               children: <Widget>[
                 Stack(
                   children: <Widget>[
-                    // MainPageBlueBubbleDesign(),
                     IconButton(
                       icon: Icon(
                         Icons.arrow_back,

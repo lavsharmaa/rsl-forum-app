@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/alert_dialogs.dart';
-
 import 'constants.dart';
 import '../../drawers_constants/admin_drawer.dart' as Drawer;
 import '../../models/User.dart';

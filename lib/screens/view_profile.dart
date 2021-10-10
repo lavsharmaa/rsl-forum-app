@@ -2,12 +2,9 @@ import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import './admin/posts/admin_events.dart';
 import './edit_profile.dart';
 import './events/user_events.dart';
-
-import '../widgets/blue_bubble_design.dart';
 import '../widgets/constants.dart';
 import '../widgets/gradient_button.dart';
 import '../models/User.dart';
@@ -49,7 +46,6 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
           children: [
             Stack(
               children: <Widget>[
-                MainPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,
@@ -91,8 +87,6 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                   child: Center(
                     child: Column(
                       children: <Widget>[
-                        // Distance from ywca
-                        // or else it will overlap
                         SizedBox(height: 90),
                         RichText(
                           text: TextSpan(

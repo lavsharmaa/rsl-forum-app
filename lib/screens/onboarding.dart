@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import './authentication/login.dart';
-import '../widgets/blue_bubble_design.dart';
 import '../widgets/gradient_button.dart';
 import '../models/User.dart';
 
@@ -57,12 +56,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               // circle design and Appbar
               Stack(
                 children: <Widget>[
-                  DetailPageBlueBubbleDesign(),
                   Positioned(
                     child: AppBar(
                       centerTitle: true,
                       title: Text(
-                        "YWCA OF BOMBAY",
+                        "RSL Forum",
                         style: TextStyle(
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w800,

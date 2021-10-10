@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../../widgets/alert_dialogs.dart';
 
 import 'admin_event_details.dart';
-import 'admin_edit_event.dart';
 import 'admin_new_event.dart';
 
 import '../../../drawers_constants/admin_drawer.dart';
@@ -110,7 +109,6 @@ class _DiscussionsState extends State<Discussions> {
           child: Center(
             child: Stack(
               children: <Widget>[
-                // EventPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,
@@ -145,8 +143,6 @@ class _DiscussionsState extends State<Discussions> {
                   preferredSize: Size.fromHeight(80),
                   child: Column(
                     children: <Widget>[
-                      // Distance from ywca
-                      // or else it will overlap
                       SizedBox(height: 80),
                       Center(
                         child: Text(

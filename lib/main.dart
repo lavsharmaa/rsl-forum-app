@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:rsl_forum_app/screens/admin/posts/edit_post/user_posts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/User.dart';
@@ -36,6 +37,7 @@ void main() async {
           "/admin_events": (context) => Discussions(),
           "/about_us": (context) => AboutUs(),
           "/contact_us": (context) => ContactUs(),
+          "/edit_post" : (context) => AdminEvents()
         },
       ),
     ),

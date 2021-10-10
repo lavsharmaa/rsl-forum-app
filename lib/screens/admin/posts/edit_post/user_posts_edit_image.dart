@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../../../widgets/blue_bubble_design.dart';
-import '../../../widgets/constants.dart';
+import '../../../../widgets/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -72,7 +71,6 @@ class _AdminEditEventImageState extends State<AdminEditEventImage> {
                 Stack(
                   // circle design
                   children: <Widget>[
-                    MainPageBlueBubbleDesign(),
                     IconButton(
                       icon: Icon(
                         Icons.arrow_back,
@@ -206,7 +204,10 @@ class _AdminEditEventImageState extends State<AdminEditEventImage> {
                                 ),
                               ),
                               onPressed: () async {
-                                if (!_formKey.currentState!.validate()) {
+                                // if (!_formKey.currentState!.validate()) {
+                                //   return;
+                                // }
+                                if (_image == null) {
                                   return;
                                 }
                                 // alertbox for saving the new/changed image
@@ -233,7 +234,8 @@ class _AdminEditEventImageState extends State<AdminEditEventImage> {
                                             Navigator.of(context,
                                                     rootNavigator: true)
                                                 .pop(true);
-                                            updateData(context, id,eventImageUrl);
+                                            updateData(
+                                                context, id, eventImageUrl);
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                           },
@@ -261,9 +263,7 @@ class _AdminEditEventImageState extends State<AdminEditEventImage> {
 
   // Updating to firebase
   Future updateData(BuildContext context, id, eventImageUrl) async {
-    await FirebaseStorage.instance
-        .refFromURL(eventImageUrl)
-        .delete();
+    await FirebaseStorage.instance.refFromURL(eventImageUrl).delete();
     String fileName = basename(_image!.path);
     Reference firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileName);

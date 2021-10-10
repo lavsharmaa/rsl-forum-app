@@ -59,27 +59,26 @@ Future<bool> showExitAlertDialog(context) async {
   );
 }
 
-    Future<dynamic> savePressed(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-              'You have been successfully registered for this event!'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Continue'),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+Future<dynamic> savePressed(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('You have been successfully registered for this event!'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Continue'),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
 Future<void> showRegisterAlertDialog(
   context,
@@ -143,15 +142,13 @@ Future<void> showRegisterAlertDialog(
     },
   );
 }
-Future<void> showAlreadyRegisterAlertDialog(
-    context
-    ) async {
+
+Future<void> showAlreadyRegisterAlertDialog(context) async {
   return await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('You are already registered to this event!'),
-
         actions: <Widget>[
           Center(
             child: TextButton(
@@ -186,10 +183,8 @@ void insertIntoOnRegistration(
       } else {
         print("adding");
         // incrementing eventRegisterClick in events
-        final DocumentReference docRef = FirebaseFirestore
-        .instance
-        .collection("events")
-        .doc(eventID);
+        final DocumentReference docRef =
+            FirebaseFirestore.instance.collection("events").doc(eventID);
         docRef.update({"eventRegisterCount": FieldValue.increment(1)});
         FirebaseFirestore.instance
             .collection('eventRegistration')

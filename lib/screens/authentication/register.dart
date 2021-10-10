@@ -3,12 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
-
 import 'login.dart';
 import 'register_otp.dart';
-
 import '../../models/User.dart';
-import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
 import '../../widgets/gradient_button.dart';
@@ -176,15 +173,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // circle design and Title
                   Stack(
                     children: <Widget>[
-                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "YWCA OF BOMBAY",
+                            "RSL Forum",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,
@@ -911,165 +906,6 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                               )
                             ],
                           ),
-                        ),
-                        Text(
-                          'Nearest YWCA Center',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: _width * 0.245,
-                            right: _width * 0.245,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: formFieldFillColor,
-                            // border: Border.all(),
-                          ),
-                          child: DropdownButton<String>(
-                            value: nearestCenter,
-                            icon: Icon(Icons.arrow_drop_down_rounded),
-                            elevation: 16,
-                            underline: Container(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                nearestCenter = value!;
-                                print(nearestCenter);
-                              });
-                            },
-                            items: <String>[
-                              'Andheri',
-                              'Bandra',
-                              'Belapur',
-                              'Borivali',
-                              'Byculla',
-                              'Chembur',
-                              'Fort',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Center(
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      letterSpacing: 1.5,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        SizedBox(height: _height * 0.010),
-                        Text(
-                          'Interested in being a member?',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Radio(
-                              value: 0,
-                              groupValue: _interestInMembershipRadioValue,
-                              onChanged:
-                                  _handleInterestInMembershipRadioValueChange,
-                              focusColor: secondaryColor,
-                              hoverColor: secondaryColor,
-                              activeColor: secondaryColor,
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _interestInMembershipRadioValue = 0;
-                                    _handleInterestInMembershipRadioValueChange(
-                                        _interestInMembershipRadioValue);
-                                  });
-                                },
-                                child: Text(
-                                  'Yes',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Radio(
-                              value: 1,
-                              groupValue: _interestInMembershipRadioValue,
-                              onChanged:
-                                  _handleInterestInMembershipRadioValueChange,
-                              focusColor: secondaryColor,
-                              hoverColor: secondaryColor,
-                              activeColor: secondaryColor,
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _interestInMembershipRadioValue = 1;
-                                    _handleInterestInMembershipRadioValueChange(
-                                        _interestInMembershipRadioValue);
-                                  });
-                                },
-                                child: Text(
-                                  'No',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Radio(
-                              value: 2,
-                              groupValue: _interestInMembershipRadioValue,
-                              onChanged:
-                                  _handleInterestInMembershipRadioValueChange,
-                              focusColor: secondaryColor,
-                              hoverColor: secondaryColor,
-                              activeColor: secondaryColor,
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _interestInMembershipRadioValue = 2;
-                                    _handleInterestInMembershipRadioValueChange(
-                                        _interestInMembershipRadioValue);
-                                  });
-                                },
-                                child: Text(
-                                  'Maybe',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
                         ),
                         SizedBox(height: _height * 0.005),
                         GradientButton(
