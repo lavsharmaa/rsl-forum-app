@@ -79,7 +79,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AdminEvents()));
+                                  builder: (context) => Discussions()));
                         } else {
                           Navigator.push(
                               context,

@@ -12,40 +12,42 @@ import '../../../widgets/zoom_image.dart';
 // ignore: must_be_immutable
 class AdminEventDetailPage extends StatefulWidget {
   String id,
-      eventAmount,
-      eventDescription,
-      eventName,
-      eventImageUrl,
-      eventVenue,
-      eventType;
-  DateTime eventDate, eventDeadline;
-  String eventTime;
+      postTitle,
+      postDescription,
+      postCategory,
+      postImageUrl,
+      postAuthor;
+  int postClickCount, 
+  postCommentCount,
+  postLikeCount;
+  DateTime postDate;
+  
 
   AdminEventDetailPage({
     required this.id,
-    required this.eventAmount,
-    required this.eventDescription,
-    required this.eventName,
-    required this.eventImageUrl,
-    required this.eventVenue,
-    required this.eventType,
-    required this.eventDate,
-    required this.eventDeadline,
-    required this.eventTime,
+    required this.postTitle,
+    required this.postDescription,
+    required this.postCategory,
+    required this.postImageUrl,
+    required this.postAuthor,
+    required this.postClickCount,
+    required this.postCommentCount,
+    required this.postLikeCount,
+    required this.postDate,
   });
   @override
   _AdminEventDetailPageState createState() =>
-      _AdminEventDetailPageState(id, eventImageUrl);
+      _AdminEventDetailPageState(id, postImageUrl);
 }
 
 class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String id;
-  late String eventImageUrl;
-  int clicks = 0;
-  int registrations = 0;
+  late String postImageUrl;
+  int postClickCount = 0;
+  int postCommentCount = 0;
 
-  _AdminEventDetailPageState(this.id, this.eventImageUrl);
+  _AdminEventDetailPageState(this.id, this.postImageUrl);
 
   void analyticsData() async {
     await FirebaseFirestore.instance
@@ -54,7 +56,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
         .get()
         .then((querySnapshot) {
       setState(() {
-        registrations += querySnapshot.size;
+        postCommentCount += querySnapshot.size;
       });
     });
     await FirebaseFirestore.instance
@@ -63,7 +65,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
         .get()
         .then((querySnapshot) {
       setState(() {
-        clicks += querySnapshot.size;
+        postClickCount += querySnapshot.size;
       });
     });
   }
@@ -76,19 +78,19 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
 
   Widget _buildImage() {
     // ignore: unnecessary_null_comparison
-    if (eventImageUrl != "") {
+    if (postImageUrl != "") {
       return ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: GestureDetector(
           child: Image.network(
-            eventImageUrl,
+            postImageUrl,
             height: 300,
           ),
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ZoomImageNetwork(eventImageUrl),
+                builder: (context) => ZoomImageNetwork(postImageUrl),
               ),
             );
           },
@@ -107,22 +109,19 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
     final _width = MediaQuery.of(context).size.width;
     // fetching the values
     id = widget.id;
-    String eventAmount = widget.eventAmount,
-        eventDescription = widget.eventDescription,
-        eventName = widget.eventName,
-        eventVenue = widget.eventVenue,
-        eventType = widget.eventType;
-    DateTime eventDate = widget.eventDate;
-    DateTime eventDeadline = widget.eventDeadline;
-    String eventTime = widget.eventTime;
+    String postTitle = widget.postTitle,
+      postDescription = widget.postDescription,
+      postCategory = widget.postCategory,
+      postImageUrl = widget.postImageUrl,
+      postAuthor = widget.postAuthor;
+  int postClickCount = widget.postClickCount, 
+  postCommentCount = widget.postCommentCount,
+  postLikeCount = widget.postLikeCount;
+  DateTime date = widget.postDate;
 
     // event date conversion to string for displaying
-    String formattedEventDate =
-        DateFormat('dd MMM, yyyy', 'en').format(eventDate);
-
-    // event deadline conversion to string for displaying
-    String formattedDeadlineDate =
-        DateFormat('dd MMM yyyy', 'en').format(eventDeadline);
+    String formattedDate =
+        DateFormat('dd MMM, yyyy', 'en').format(date);
 
     return Scaffold(
       appBar: AppBar(
@@ -130,7 +129,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          "YWCA OF BOMBAY",
+          "RSL Forum",
           style: TextStyle(
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w800,
@@ -148,15 +147,8 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
             onPressed: () {
               final RenderBox box = context.findRenderObject() as RenderBox;
               Share.share(
-                  "Event: $eventName" +
-                      "\nDescription: $eventDescription" +
-                      "\n\n Date: $formattedEventDate  Time: $eventTime" +
-                      "\nVenue: $eventVenue" +
-                      "\n\n Contact before $formattedDeadlineDate to register: " +
-                      "\nShoba Balla: +919833393953" +
-                      "\nMildin Nadar: +918828024246" +
-                      "\n\nDownload app from Google Play to register for the $eventName:" +
-                      "\nhttps://play.google.com/store/apps/details?id=com.sevatech.ywca",
+                  "Title: $postTitle" +
+                      "\nDescription: $postDescription",
                   sharePositionOrigin:
                       box.localToGlobal(Offset.zero) & box.size);
             },
@@ -199,7 +191,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          eventName,
+                          postTitle,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 20,
@@ -219,7 +211,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                               ),
                               TextSpan(
                                 text:
-                                    " " + formattedEventDate + ", " + eventTime,
+                                    " " + formattedDate,
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 18,
@@ -240,7 +232,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                                 child: Icon(Icons.location_on),
                               ),
                               TextSpan(
-                                text: eventVenue,
+                                text: postCategory,
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 16,
@@ -259,7 +251,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          eventDescription,
+                          postDescription,
                           style: TextStyle(
                             fontSize: 16,
                             color: Color(0xff000000),
@@ -268,14 +260,12 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: _height * 0.015,
-                      ),
+                      SizedBox(height: _height * 0.015),
                       Padding(
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          '₹ ' + eventAmount,
+                          'Category: ' + postCategory,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -288,20 +278,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          'Event for: ' + eventType,
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: _height * 0.015),
-                      Padding(
-                        padding:
-                            EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
-                        child: Text(
-                          '❌ Deadline: ' + formattedDeadlineDate,
+                          'Posted on: ' + formattedDate,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -316,7 +293,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          'Clicks:  ' + clicks.toString(),
+                          'Like:  ' + postLikeCount.toString(),
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -326,17 +303,17 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                       SizedBox(
                         height: _height * 0.015,
                       ),
-                      Padding(
-                        padding:
-                            EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
-                        child: Text(
-                          'Registrations: ' + registrations.toString(),
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding:
+                      //       EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
+                      //   child: Text(
+                      //     'Registrations: ' + registrations.toString(),
+                      //     style: TextStyle(
+                      //       fontFamily: 'Montserrat',
+                      //       fontSize: 16,
+                      //     ),
+                      //   ),
+                      // ),
                       //Deadline of Event
                       SizedBox(height: _height * 0.015),
                     ],

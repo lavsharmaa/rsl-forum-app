@@ -39,7 +39,7 @@ void main() async {
           '/register': (BuildContext context) => RegisterScreen(),
           '/login': (BuildContext context) => LoginScreen(),
           "/events": (context) => Events(),
-          "/admin_events": (context) => AdminEvents(),
+          "/admin_events": (context) => Discussions(),
           "/initiatives": (context) => Initiatives(),
           "/success_stories": (context) => SuccessStories(),
           "/about_us": (context) => AboutUs(),
@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
       ),
     );
     return Splash();
+    // return Discussions();
   }
 }
 
@@ -108,7 +109,7 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
         }
         if (userdata['memberRole'] == "Admin") {
           Navigator.of(context).pushReplacement(
-              new MaterialPageRoute(builder: (context) => new AdminEvents()));
+              new MaterialPageRoute(builder: (context) => new Discussions()));
         } else {
           Navigator.of(context).pushReplacement(
               new MaterialPageRoute(builder: (context) => new Events()));

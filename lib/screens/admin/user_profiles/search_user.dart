@@ -45,7 +45,8 @@ class _SearchUserState extends State<SearchUser> {
                   snapshotData.docs[index].get('emailId'),
                   snapshotData.docs[index].get('dateOfBirth'),
                   snapshotData.docs[index].get('memberRole'),
-                  snapshotData.docs[index].get('gender'),);
+                  snapshotData.docs[index].get('gender'),
+                  snapshotData.docs[index].get('placeOfWork'));
             },
             child: Card(
               elevation: 5,
@@ -126,7 +127,8 @@ class _SearchUserState extends State<SearchUser> {
       String emailId,
       Timestamp dateOfBirth,
       String memberRole,
-      String gender) {
+      String gender,
+      String placeOfWork) {
     DateTime newdateOfBirth = dateOfBirth.toDate();
     Navigator.push(
       context,
@@ -140,6 +142,7 @@ class _SearchUserState extends State<SearchUser> {
           dateOfBirth: newdateOfBirth,
           memberRole: memberRole,
           gender: gender,
+          placeOfWork: placeOfWork,
         ),
       ),
     );
@@ -149,6 +152,6 @@ class _SearchUserState extends State<SearchUser> {
 goBackToPreviousScreen(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => AdminEvents()),
+    MaterialPageRoute(builder: (context) => Discussions()),
   );
 }

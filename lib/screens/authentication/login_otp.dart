@@ -81,7 +81,7 @@ class _LoginOtpState extends State<LoginOtp>
             if (userInfo.getmemberRole == 'Admin') {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => AdminEvents()),
+                  MaterialPageRoute(builder: (context) => Discussions()),
                   (route) => false);
             } else {
               Navigator.pushAndRemoveUntil(

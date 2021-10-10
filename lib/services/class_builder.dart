@@ -14,7 +14,7 @@ void register<T>(Constructor<T> constructor) {
 class ClassBuilder {
   static void registerClasses() {
     register<Events>(() => Events());
-    register<AdminEvents>(() => AdminEvents());
+    register<Discussions>(() => Discussions());
     register<ContactUs>(() => ContactUs());
   }
 

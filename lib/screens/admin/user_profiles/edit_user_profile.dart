@@ -16,7 +16,8 @@ class EditUserProfile extends StatefulWidget {
       phoneNumber,
       emailId,
       userRole,
-      gender;
+      gender,
+      placeOfWork;
   DateTime dateOfBirth;
 
   EditUserProfile({
@@ -28,6 +29,7 @@ class EditUserProfile extends StatefulWidget {
     required this.dateOfBirth,
     required this.userRole,
     required this.gender,
+    required this.placeOfWork,
   });
   @override
   _EditUserProfileState createState() => _EditUserProfileState(
@@ -39,6 +41,7 @@ class EditUserProfile extends StatefulWidget {
         userRole,
         gender,
         dateOfBirth,
+        placeOfWork
       );
 }
 
@@ -52,7 +55,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
   late DateTime dateOfBirth;
   String uid = '';
   var userInfo;
-  String address = "";
+  String placeOfWork = "";
 
   _EditUserProfileState(
     this.uid,
@@ -63,6 +66,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
     this.userRole,
     this.gender,
     this.dateOfBirth,
+    this.placeOfWork,
   );
 
   final GlobalKey<FormState> _formKey =
@@ -434,11 +438,11 @@ class _EditUserProfileState extends State<EditUserProfile> {
                           ),
                           SizedBox(height: _height * 0.015),
                           TextFormField(
-                            initialValue: address,
+                            initialValue: placeOfWork,
                             keyboardType: TextInputType.text,
                             onSaved: (value) {
                               setState(() {
-                                address = value!;
+                                placeOfWork = value!;
                               });
                             },
                             decoration: InputDecoration(
@@ -446,7 +450,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                 Icons.account_circle,
                                 color: secondaryColor,
                               ),
-                              labelText: 'Address',
+                              labelText: 'Place of work',
                               filled: true,
                               fillColor: formFieldFillColor,
                               disabledBorder: InputBorder.none,
@@ -691,7 +695,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                   .collection("users")
                                   .doc(uid)
                                   .update({
-                                "address": address,
+                                "placeOfWork": placeOfWork,
                                 "firstName": firstName,
                                 "lastName": lastName,
                                 "dateOfBirth": dateOfBirth,

@@ -20,24 +20,24 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
-class AdminEvents extends StatefulWidget {
+class Discussions extends StatefulWidget {
   @override
-  _AdminEventsState createState() => _AdminEventsState();
+  _DiscussionsState createState() => _DiscussionsState();
 }
 
-class _AdminEventsState extends State<AdminEvents> {
+class _DiscussionsState extends State<Discussions> {
   final DrawerScaffoldController controller = DrawerScaffoldController();
   late int selectedMenuItemId;
   var userInfo;
   var screenSize;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  // conversion of event date to string for displaying
-  String readEventDate(Timestamp eventDate) {
-    DateTime newEventDate = eventDate.toDate();
-    String formattedEventDate =
-        DateFormat('EEE | dd MMM, yyyy', 'en').format(newEventDate);
-    return formattedEventDate;
+  // conversion of event postdate to string for displaying
+  String readpostdate(Timestamp eventpostdate) {
+    DateTime newpostdate = eventpostdate.toDate();
+    String formattedpostdate =
+        DateFormat('EEE | dd MMM, yyyy', 'en').format(newpostdate);
+    return formattedpostdate;
   }
 
   // insert token into the database
@@ -60,8 +60,8 @@ class _AdminEventsState extends State<AdminEvents> {
               .collection('mobileToken')
               .doc(userID)
               .update({'token': deviceToken})
-              .then((_) => print('Updated'))
-              .catchError((error) => print('Update failed: $error'));
+              .then((_) => print('Uppostdated'))
+              .catchError((error) => print('Uppostdate failed: $error'));
         } else {
           // saving the value if it doesn't exists
           print("adding");
@@ -78,7 +78,7 @@ class _AdminEventsState extends State<AdminEvents> {
     selectedMenuItemId = menuWithIcon.items[1].id;
     userInfo = Provider.of<UserData>(context, listen: false);
     initializeDateFormatting('en', null);
-    _getToken();
+    // _getToken();
     super.initState();
   }
 
@@ -111,12 +111,12 @@ class _AdminEventsState extends State<AdminEvents> {
           child: Center(
             child: Stack(
               children: <Widget>[
-                EventPageBlueBubbleDesign(),
+                // EventPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,
                     title: Text(
-                      "YWCA OF BOMBAY",
+                      "RSL Forum",
                       style: TextStyle(
                         fontFamily: 'Raleway',
                         // fontStyle: FontStyle.italic,
@@ -151,7 +151,7 @@ class _AdminEventsState extends State<AdminEvents> {
                       SizedBox(height: 80),
                       Center(
                         child: Text(
-                          'Events',
+                          'Dicussions',
                           style: TextStyle(
                             fontSize: 26,
                             color: Color(0xff333333),
@@ -161,22 +161,6 @@ class _AdminEventsState extends State<AdminEvents> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      // TextField(
-                      //   decoration: InputDecoration(
-                      //     hintText: "Search by venue",
-                      //     prefixIcon: Icon(
-                      //       Icons.search,
-                      //       color: Colors.grey,
-                      //     ),
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: BorderSide.none,
-                      //     ),
-                      //     contentPadding: EdgeInsets.zero,
-                      //     filled: true,
-                      //     fillColor: Colors.transparent,
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -210,9 +194,9 @@ class _AdminEventsState extends State<AdminEvents> {
                           ),
                           icon: Icon(Icons.add),
                           label: Text(
-                            "New Event",
+                            "Start New Discussion",
                             style: TextStyle(
-                              fontSize: 17.0,
+                              fontSize: 14.0,
                             ),
                           ),
                           onPressed: () async {
@@ -237,8 +221,8 @@ class _AdminEventsState extends State<AdminEvents> {
   Widget getHomePageBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
-          .collection('events')
-          .orderBy('eventDate', descending: true)
+          .collection('discussions')
+          // .orderBy('eventpostdate', descending: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError)
@@ -266,16 +250,16 @@ class _AdminEventsState extends State<AdminEvents> {
                               Radius.circular(10.0),
                             ),
                             child: Image.network(
-                              // add image location here
-                              document['eventImageUrl'],
+                              // Image
+                              document['postImageUrl'],
                               fit: BoxFit.fitWidth,
                               // // width: 200,
                             ),
                           ),
                           SizedBox(height: 5),
-                          // Event name
+                          // Title
                           Text(
-                            document['eventName'],
+                            document['postTitle'],
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20.0,
@@ -283,54 +267,43 @@ class _AdminEventsState extends State<AdminEvents> {
                             ),
                           ),
                           SizedBox(height: 5),
-                          // Resource person
-                          Text(
-                            // TODO: Resource person in DB
-                            'Resource Person: Sharon Pires',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          SizedBox(height: 5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // Event Venue
+                              // postAuthor
                               Text(
-                                'Venue: ' + document['eventVenue'],
+                                'Author: ' + document['postAuthor'],
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              // Category
+                              Text(
+                                'Category: ' + document['postCategory'],
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
                               SizedBox(height: 5),
-                              // Event time
-                              Text(
-                                // TODO: Time in 12 hr format (AM/PM)
-                                'Time: ' + (document['eventTime']),
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // Event Amount
+                              // postLikeCount
                               Text(
-                                'Amount: ' + document['eventAmount'],
+                                'Likes: ' + document['postLikeCount'].toString(),
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              // Event date
+                              // Comments
                               Text(
                                 'Date: ' +
-                                    (readEventDate(document['eventDate'])),
+                                    (readpostdate(document['postdate'])),
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.normal,
@@ -339,156 +312,156 @@ class _AdminEventsState extends State<AdminEvents> {
                             ],
                           ),
                           // start of edit and delete button
-                          Row(
-                            children: [
-                              Spacer(flex: 12),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      // Alert box for edit event
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Text(
-                                            'Are you sure you want to edit this event?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(
-                                                context,
-                                                rootNavigator: true,
-                                              ).pop(
-                                                  false); // dismisses only the dialog and returns false
-                                            },
-                                            child: Text('No'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop(true);
-                                              gotoEditEvent2(
-                                                context,
-                                                document.id,
-                                                document['eventAmount'],
-                                                document['eventDescription'],
-                                                document['eventName'],
-                                                document['eventImageUrl'],
-                                                document['eventVenue'],
-                                                document['eventType'],
-                                                document['eventDate'],
-                                                document['eventDeadline'],
-                                                document['eventTime'],
-                                              );
-                                            },
-                                            child: Text('Yes'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(secondaryColor),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(5)),
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                ),
-                              ),
-                              Spacer(),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  // Alert box for delete event
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Text(
-                                          'Are you sure you want to delete this event?',
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(
-                                                context,
-                                                rootNavigator: true,
-                                              ).pop(
-                                                  false); // dismisses only the dialog and returns false
-                                            },
-                                            child: Text('No'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop(true);
-                                              var events = FirebaseFirestore
-                                                  .instance
-                                                  .collection('events');
-                                              var eventsBackup =
-                                                  FirebaseFirestore
-                                                      .instance
-                                                      .collection(
-                                                          'eventsBackup');
-                                              await events
-                                                  .doc(document.id)
-                                                  .delete();
-                                              await eventsBackup
-                                                  .doc(document.id)
-                                                  .delete();
-                                              await FirebaseStorage.instance
-                                                  .refFromURL(
-                                                      document['eventImageUrl'])
-                                                  .delete();
-                                              await FirebaseFirestore.instance
-                                                  .collection("eventClick")
-                                                  .where('eventID',
-                                                      isEqualTo: document.id)
-                                                  .get()
-                                                  .then((querySnapshot) {
-                                                querySnapshot.docs
-                                                    .forEach((doc) {
-                                                  doc.reference.delete();
-                                                });
-                                              });
-                                              await FirebaseFirestore.instance
-                                                  .collection(
-                                                      "eventRegistration")
-                                                  .where('eventID',
-                                                      isEqualTo: document.id)
-                                                  .get()
-                                                  .then((querySnapshot) {
-                                                querySnapshot.docs
-                                                    .forEach((doc) {
-                                                  doc.reference.delete();
-                                                });
-                                              });
-                                              setState(() {});
-                                            },
-                                            child: Text('Yes'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.red),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(5)),
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     Spacer(flex: 12),
+                          //     ElevatedButton(
+                          //       onPressed: () async {
+                          //         await showDialog(
+                          //           context: context,
+                          //           builder: (context) {
+                          //             // Alert box for edit event
+                          //             return AlertDialog(
+                          //               title: Text('Confirmation'),
+                          //               content: Text(
+                          //                   'Are you sure you want to edit this event?'),
+                          //               actions: <Widget>[
+                          //                 TextButton(
+                          //                   onPressed: () {
+                          //                     Navigator.of(
+                          //                       context,
+                          //                       rootNavigator: true,
+                          //                     ).pop(
+                          //                         false); // dismisses only the dialog and returns false
+                          //                   },
+                          //                   child: Text('No'),
+                          //                 ),
+                          //                 TextButton(
+                          //                   onPressed: () {
+                          //                     Navigator.of(context,
+                          //                             rootNavigator: true)
+                          //                         .pop(true);
+                          //                     gotoEditEvent2(
+                          //                       context,
+                          //                       document.id,
+                          //                       document['eventAmount'],
+                          //                       document['eventDescription'],
+                          //                       document['eventName'],
+                          //                       document['eventImageUrl'],
+                          //                       document['eventVenue'],
+                          //                       document['eventType'],
+                          //                       document['eventpostdate'],
+                          //                       document['eventDeadline'],
+                          //                       document['eventTime'],
+                          //                     );
+                          //                   },
+                          //                   child: Text('Yes'),
+                          //                 ),
+                          //               ],
+                          //             );
+                          //           },
+                          //         );
+                          //       },
+                          //       style: ButtonStyle(
+                          //         backgroundColor:
+                          //             MaterialStateProperty.all(secondaryColor),
+                          //         padding: MaterialStateProperty.all(
+                          //             EdgeInsets.all(5)),
+                          //       ),
+                          //       child: Icon(
+                          //         Icons.edit,
+                          //       ),
+                          //     ),
+                          //     Spacer(),
+                          //     ElevatedButton(
+                          //       onPressed: () async {
+                          //         // Alert box for delete event
+                          //         await showDialog(
+                          //           context: context,
+                          //           builder: (context) {
+                          //             return AlertDialog(
+                          //               title: Text('Confirmation'),
+                          //               content: Text(
+                          //                 'Are you sure you want to delete this event?',
+                          //               ),
+                          //               actions: <Widget>[
+                          //                 TextButton(
+                          //                   onPressed: () {
+                          //                     Navigator.of(
+                          //                       context,
+                          //                       rootNavigator: true,
+                          //                     ).pop(
+                          //                         false); // dismisses only the dialog and returns false
+                          //                   },
+                          //                   child: Text('No'),
+                          //                 ),
+                          //                 TextButton(
+                          //                   onPressed: () async {
+                          //                     Navigator.of(context,
+                          //                             rootNavigator: true)
+                          //                         .pop(true);
+                          //                     var events = FirebaseFirestore
+                          //                         .instance
+                          //                         .collection('events');
+                          //                     var eventsBackup =
+                          //                         FirebaseFirestore
+                          //                             .instance
+                          //                             .collection(
+                          //                                 'eventsBackup');
+                          //                     await events
+                          //                         .doc(document.id)
+                          //                         .delete();
+                          //                     await eventsBackup
+                          //                         .doc(document.id)
+                          //                         .delete();
+                          //                     await FirebaseStorage.instance
+                          //                         .refFromURL(
+                          //                             document['eventImageUrl'])
+                          //                         .delete();
+                          //                     await FirebaseFirestore.instance
+                          //                         .collection("eventClick")
+                          //                         .where('eventID',
+                          //                             isEqualTo: document.id)
+                          //                         .get()
+                          //                         .then((querySnapshot) {
+                          //                       querySnapshot.docs
+                          //                           .forEach((doc) {
+                          //                         doc.reference.delete();
+                          //                       });
+                          //                     });
+                          //                     await FirebaseFirestore.instance
+                          //                         .collection(
+                          //                             "eventRegistration")
+                          //                         .where('eventID',
+                          //                             isEqualTo: document.id)
+                          //                         .get()
+                          //                         .then((querySnapshot) {
+                          //                       querySnapshot.docs
+                          //                           .forEach((doc) {
+                          //                         doc.reference.delete();
+                          //                       });
+                          //                     });
+                          //                     setState(() {});
+                          //                   },
+                          //                   child: Text('Yes'),
+                          //                 ),
+                          //               ],
+                          //             );
+                          //           },
+                          //         );
+                          //       },
+                          //       style: ButtonStyle(
+                          //         backgroundColor:
+                          //             MaterialStateProperty.all(Colors.red),
+                          //         padding: MaterialStateProperty.all(
+                          //             EdgeInsets.all(5)),
+                          //       ),
+                          //       child: Icon(
+                          //         Icons.delete,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           // end of edit and delete
                         ],
                       ),
@@ -496,15 +469,15 @@ class _AdminEventsState extends State<AdminEvents> {
                         gotoDetailEvent(
                             context,
                             document.id,
-                            document['eventAmount'],
-                            document['eventDescription'],
-                            document['eventName'],
-                            document['eventImageUrl'],
-                            document['eventVenue'],
-                            document['eventType'],
-                            document['eventDate'],
-                            document['eventDeadline'],
-                            document['eventTime']);
+                            document['postTitle'],
+                            document['postDescription'],
+                            document['postCategory'],
+                            document['postImageUrl'],
+                            document['postClickCount'],
+                            document['postCommentCount'],
+                            document['postdate'],
+                            document['postLikeCount'],
+                            document['postAuthor']);
                       },
                     ),
                   ),
@@ -527,71 +500,31 @@ gotoNewEvent(BuildContext context) {
 gotoDetailEvent(
     BuildContext context,
     String id,
-    String eventAmount,
-    String eventDescription,
-    String eventName,
-    String eventImageUrl,
-    String eventVenue,
-    String eventType,
-    Timestamp eventDate,
-    Timestamp eventDeadline,
-    String eventTime) {
-  // TimeStamp to DateTime conversion of event date for displaying
-  DateTime newEventDate = eventDate.toDate();
-
-  // TimeStamp to DateTime conversion of event deadline for displaying
-  DateTime newEventDeadline = eventDeadline.toDate();
+    String postTitle,
+    String postDescription,
+    String postCategory,
+    String postImageUrl,
+    int postClickCount,
+    int postCommentCount,
+    Timestamp postdate,
+    int postLikeCount,
+    String postAuthor) {
+  // TimeStamp to postdateTime conversion of postdate for displaying
+  DateTime newpostdate = postdate.toDate();
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) => AdminEventDetailPage(
         id: id,
-        eventAmount: eventAmount,
-        eventDescription: eventDescription,
-        eventName: eventName,
-        eventImageUrl: eventImageUrl,
-        eventVenue: eventVenue,
-        eventType: eventType,
-        eventDate: newEventDate,
-        eventDeadline: newEventDeadline,
-        eventTime: eventTime,
-      ),
-    ),
-  );
-}
-
-gotoEditEvent2(
-    BuildContext context,
-    String id,
-    String eventAmount,
-    String eventDescription,
-    String eventName,
-    String eventImageUrl,
-    String eventVenue,
-    String eventType,
-    Timestamp eventDate,
-    Timestamp eventDeadline,
-    String eventTime) {
-  // TimeStamp to DateTime conversion of event date for displaying
-  DateTime newEventDate = eventDate.toDate();
-
-  // TimeStamp to DateTime conversion of event deadline for displaying
-  DateTime newEventDeadline = eventDeadline.toDate();
-
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => EditEventScreen(
-        id: id,
-        eventAmount: eventAmount,
-        eventDescription: eventDescription,
-        eventName: eventName,
-        eventImageUrl: eventImageUrl,
-        eventVenue: eventVenue,
-        eventType: eventType,
-        eventDate: newEventDate,
-        eventDeadline: newEventDeadline,
-        eventTime: eventTime,
+        postTitle: postTitle,
+        postDescription: postDescription,
+        postCategory: postCategory,
+        postImageUrl: postImageUrl,
+        postClickCount: postClickCount,
+        postCommentCount: postCommentCount,
+        postLikeCount: postLikeCount,
+        postAuthor: postAuthor,
+        postDate: newpostdate,
       ),
     ),
   );

@@ -14,7 +14,8 @@ class UserProfileDetails extends StatefulWidget {
       phoneNumber,
       emailId,
       memberRole,
-      gender;
+      gender,
+      placeOfWork;
   DateTime dateOfBirth;
 
   UserProfileDetails(
@@ -25,7 +26,8 @@ class UserProfileDetails extends StatefulWidget {
       required this.emailId,
       required this.dateOfBirth,
       required this.memberRole,
-      required this.gender});
+      required this.gender,
+      required this.placeOfWork});
   @override
   _UserProfileDetailsState createState() => _UserProfileDetailsState();
 }
@@ -50,7 +52,8 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
         emailId = widget.emailId,
         memberRole = widget.memberRole,
         gender = widget.gender,
-        uid = widget.uid;
+        uid = widget.uid,
+        placeOfWork = widget.placeOfWork;
     DateTime dateOfBirth = widget.dateOfBirth;
     String formattedDateOfBirth =
         DateFormat('dd MMM, yyyy').format(dateOfBirth);
@@ -87,7 +90,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdminEvents()));
+                                builder: (context) => Discussions()));
                       },
                     ),
                   ),
@@ -175,6 +178,8 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                             // Gender
                             DetailText(text: 'Gender: $gender'),
                             SizedBox(height: 15),
+                            DetailText(text: 'Place of work: $placeOfWork'),
+                            SizedBox(height: 15),
                           ],
                         ),
                         decoration: const BoxDecoration(
@@ -196,7 +201,8 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                               emailId,
                               dateOfBirth,
                               memberRole,
-                              gender);
+                              gender,
+                              placeOfWork);
                         },
                       ),
                       SizedBox(height: _height * 0.02),
@@ -220,7 +226,8 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
       String emailId,
       DateTime dateOfBirth,
       String memberRole,
-      String gender) {
+      String gender,
+      String placeOfWork) {
     // DateTime newdateOfBirth = dateOfBirth.toDate();
     Navigator.push(
       context,
@@ -234,6 +241,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
           dateOfBirth: dateOfBirth,
           userRole: memberRole,
           gender: gender,
+          placeOfWork: placeOfWork
         ),
       ),
     );
