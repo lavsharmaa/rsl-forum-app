@@ -3,12 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
+
+import '../widgets/blue_bubble_design.dart';
 import '../widgets/constants.dart';
 import '../widgets/gradient_button.dart';
 import '../models/User.dart';
 import 'package:intl/date_symbol_data_local.dart';
 // enum GenderChoices { female, male, declineToState }
-// enum MemberChoices { yes, no, maybe }
 
 // ignore: must_be_immutable
 class EditProfileScreen extends StatefulWidget {
@@ -23,14 +24,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String phoneNumber = '';
   String gender = "Female";
   late DateTime dateOfBirth;
-  String profession = '';
   String placeOfWork = '';
-  String nearestCenter = "Chembur";
-  String interestInMembership = "Yes";
   String uid = '';
   String role = "";
   var userInfo;
-  String address = "";
 
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(); // form key for validation
@@ -38,7 +35,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final GlobalKey<ScaffoldState> _scaffoldkey =
       GlobalKey<ScaffoldState>(); // scaffold key for snack bar
 
-  // MemberChoices _selectedMembershipInterest = MemberChoices.yes;
   // GenderChoices selectedGender = GenderChoices.female;
 
   // female-0, male-1, decline to state-2
@@ -48,8 +44,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _genderRadioValue = value!;
       if (_genderRadioValue == 0) {
         gender = "Female";
-      } else {
+      } else if (_genderRadioValue == 1) {
         gender = "Male";
+      } else {
+        gender = "Decline to state";
       }
       print("gender selected: $gender");
     });
@@ -87,12 +85,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (picked != null && picked != dateOfBirth) {
       setState(() {
         dateOfBirth = picked;
-        // print(eventDate);
       });
     }
   }
 
-  // Future<bool> _onBackPressed() {
   _onBackPressed() {
     return showDialog(
       context: context,
@@ -120,27 +116,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Future<dynamic> savePressed() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-              'Your request to change information has been successfully sent!'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Continue'),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
     userInfo = Provider.of<UserData>(context, listen: false);
@@ -152,6 +127,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     dateOfBirth = userInfo.getdateOfBirth;
     gender = userInfo.getgender;
     placeOfWork = userInfo.getplaceOfWork;
+    role = userInfo.getmemberRole;
     if (gender == "Male") {
       _genderRadioValue = 1;
     } else if (gender == "Female") {
@@ -174,15 +150,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       onWillPop: () => _onBackPressed(),
       child: Scaffold(
         key: _scaffoldkey,
-        // body:WillPopScope(
-        //   onWillPop: _onBackPressed,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // circle design and Title
                   Stack(
                     children: <Widget>[
                       Positioned(
@@ -219,7 +192,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               'EDIT PROFILE',
                               style: TextStyle(
                                 fontSize: 35,
-                                // color: Color(0xff333333),
                                 color: primaryColor,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'RacingSansOne',
@@ -324,12 +296,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           SizedBox(height: _height * 0.015),
                           TextFormField(
                             readOnly: true,
-                            // initialValue: DateFormat('yyyy-MM-dd').format(Provider.of<UserData>(context, listen:false).getdateOfBirth).toString(),
-                            // keyboardType: TextInputType.datetime,
                             onChanged: (value) {
                               setState(() {
-                                // dateOfBirth = DateTime.parse(value);
-                                // dateOfBirth\ = value;
                               });
                             },
                             controller: dateController,
@@ -370,55 +338,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 email = value!;
                               });
                             },
-                            // validator: (value) {
-                            //   if (value!.isEmpty) {
-                            //     return 'Email is required';
-                            //   }
-                            //   if (!RegExp(
-                            //           "^[a-zA-Z0-9.!#%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*")
-                            //       .hasMatch(value)) {
-                            //     return 'Enter a valid email address';
-                            //   }
-                            //   // return null coz validator has to return something
-                            //   return null;
-                            // },
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.email,
                                 color: secondaryColor,
                               ),
                               labelText: 'Email Address',
-                              filled: true,
-                              fillColor: formFieldFillColor,
-                              disabledBorder: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: formFieldFillColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: formFieldFillColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              errorBorder: InputBorder.none,
-                            ),
-                          ),
-                          SizedBox(height: _height * 0.015),
-                          TextFormField(
-                            initialValue: address,
-                            keyboardType: TextInputType.text,
-                            onSaved: (value) {
-                              setState(() {
-                                address = value!;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.account_circle,
-                                color: secondaryColor,
-                              ),
-                              labelText: 'Address',
                               filled: true,
                               fillColor: formFieldFillColor,
                               disabledBorder: InputBorder.none,
@@ -528,57 +453,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ],
                           ),
-                          TextFormField(
-                            initialValue: userInfo.getprofession,
-                            keyboardType: TextInputType.text,
-                            onSaved: (String? value) {
-                              setState(() {
-                                profession = value!;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: secondaryColor,
-                              ),
-                              labelText: 'Profession',
-                              filled: true,
-                              fillColor: formFieldFillColor,
-                              disabledBorder: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: formFieldFillColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: formFieldFillColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              errorBorder: InputBorder.none,
-                            ),
-                          ),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  child: Text(
-                                    '(Leave blank if retired)',
-                                    style: TextStyle(
-                                      color: primaryColor,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.only(
-                                    top: 2.5,
-                                    bottom: 2.5,
-                                    right: 3,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -639,120 +513,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            'Nearest YWCA Center',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                              // left: _width * 0.262,
-                              // right: _width * 0.262,
-                              left: _width * 0.245,
-                              right: _width * 0.245,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: formFieldFillColor,
-                              // border: Border.all(),
-                            ),
-                            child: DropdownButton<String>(
-                              value: nearestCenter,
-                              icon: Icon(Icons.arrow_drop_down_rounded),
-                              elevation: 16,
-                              underline: Container(),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                  nearestCenter = value!;
-                                  print(nearestCenter);
-                                });
-                              },
-                              items: <String>[
-                                'Andheri',
-                                'Bandra',
-                                'Belapur',
-                                'Borivali',
-                                'Byculla',
-                                'Chembur',
-                                'Fort',
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Center(
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        letterSpacing: 2,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          if (role == "NonMember")
-                            Text(
-                              'Interested in being a member?',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: primaryColor,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Montserrat',
-                              ),
-                            ),
                           SizedBox(height: _height * 0.005),
                           GradientButton(
                             buttonText: 'Update Profile',
                             screenHeight: _height,
                             onPressedFunction: () async {
                               print(userInfo.getmemberRole);
-                              // TODO: validate function not working, hence the code after it does not execute
                               if (_formKey.currentState!.validate() != true) {
                                 Vibration.vibrate(duration: 100);
                                 return;
                               }
                               _formKey.currentState!.save();
-                              // _formKey.currentState?.save();
 
-                              if (userInfo.getmemberRole == "Member") {
-                                await FirebaseFirestore.instance
-                                    .collection("approval")
-                                    .doc(uid)
-                                    .set({
-                                      "address": address,
-                                      "firstName": firstName,
-                                      "lastName": lastName,
-                                      "dateOfBirth": dateOfBirth,
-                                      "emailId": email,
-                                      "gender": gender,
-                                      "placeOfWork": placeOfWork,
-                                      "uid": uid,
-                                      "phoneNumber": userInfo.getphoneNumber,
-                                      "approvalStatus": "pending"
-                                    })
-                                    .then((value) =>
-                                        {print("Request Sent"), savePressed()})
-                                    .catchError((error) =>
-                                        print("Failed to update user: $error"));
-                                // await savePressed();
-                              } else {
                                 print("updating as it is non-member");
                                 await FirebaseFirestore.instance
                                     .collection("users")
                                     .doc(uid)
                                     .update({
-                                  "address": address,
                                   "firstName": firstName,
                                   "lastName": lastName,
                                   "dateOfBirth": dateOfBirth,
@@ -761,6 +538,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   "placeOfWork": placeOfWork,
                                   "uid": uid,
                                   "phoneNumber": userInfo.getphoneNumber,
+                                  "memberRole": userInfo.getmemberRole,
                                 }).then((value) async {
                                   await userInfo.updateAfterAuth(
                                       uid,
@@ -770,12 +548,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       email,
                                       phoneNumber,
                                       gender,
-                                      placeOfWork);
+                                      placeOfWork,
+                                      userInfo.getmemberRole);
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 }).catchError((error) =>
                                         print("Failed to update user: $error"));
-                              }
+                              // }
 
                               // Navigator.pop(context);
                               // Navigator.pop(context);
@@ -784,19 +563,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           SizedBox(
                             height: _height * 0.020,
                           ),
-                          if (role == "Member") ...[
-                            Center(
-                              child: Text(
-                                'Your details will be verified by the admin and then updated within a few days',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontFamily: 'Montserrat',
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                     ),

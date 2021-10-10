@@ -14,6 +14,7 @@ import 'package:path/path.dart';
 import 'package:vibration/vibration.dart';
 import '../../../widgets/constants.dart';
 import '../../../widgets/gradient_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
 class AdminNewEvent extends StatefulWidget {
@@ -84,6 +85,10 @@ class _AdminNewEventState extends State<AdminNewEvent> {
     var url = imageUrl.toString();
     print("Image URL=" + url);
 
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user?.uid;
+
     FirebaseFirestore.instance.collection('discussions').add({
       'postImageUrl': url,
       'postTitle': postTitle,
@@ -94,6 +99,7 @@ class _AdminNewEventState extends State<AdminNewEvent> {
       'postLikeCount': 0,
       'postCommentCount': 0,
       'postClickCount': 0,
+      'authoUid': userID,
     });
   }
 

@@ -1,10 +1,9 @@
 import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/constants.dart';
 import '../screens/view_profile.dart';
 import '../services/auth_service.dart';
-import '../widgets/constants.dart';
 
 List<MenuItem> items = [
   MenuItem<int>(
@@ -14,18 +13,23 @@ List<MenuItem> items = [
   ),
   MenuItem<int>(
     id: 1,
-    title: 'Discussions',
+    title: 'Events',
     prefix: Icon(Icons.event),
   ),
   MenuItem<int>(
     id: 2,
-    title: 'Contact Us',
-    prefix: Icon(Icons.quick_contacts_mail),
+    title: 'Initiatives',
+    prefix: Icon(Icons.follow_the_signs_sharp),
   ),
   MenuItem<int>(
     id: 3,
-    title: 'User Profiles',
-    prefix: Icon(Icons.person),
+    title: 'Success Stories',
+    prefix: Icon(Icons.star),
+  ),
+  MenuItem<int>(
+    id: 4,
+    title: 'Contact Us',
+    prefix: Icon(Icons.quick_contacts_mail),
   ),
 ];
 final menu = Menu(
@@ -45,19 +49,21 @@ void selectedItem(BuildContext context, int index) {
       Navigator.pushNamed(context, "/about_us");
       break;
     case 1:
-      Navigator.pushNamed(context, "/admin_events");
+      Navigator.pushNamed(context, "/events");
       break;
     case 2:
-      Navigator.pushNamed(context, "/contact_us");
+      Navigator.pushNamed(context, "/initiatives");
       break;
     case 3:
-      Navigator.pushNamed(context, "/user_profiles");
+      Navigator.pushNamed(context, "/success_stories");
+      break;
+    case 4:
+      Navigator.pushNamed(context, "/contact_us");
       break;
   }
 }
 
 Widget header(BuildContext context, var userInfo) {
-  // final DrawerScaffoldController controller = DrawerScaffoldController();
   return Container(
     width: MediaQuery.of(context).size.width * 0.7,
     child: Padding(
@@ -67,6 +73,32 @@ Widget header(BuildContext context, var userInfo) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          // Text(
+          //   'YWCA Of Bombay',
+          //   textAlign: TextAlign.left,
+          //   style: TextStyle(
+          //     fontSize: 22,
+          //     color: Colors.black,
+          //     fontFamily: 'LobsterTwo',
+          //     fontStyle: FontStyle.italic,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          // SizedBox(height: 5),
+          // SizedBox(height: 5),
+          // CircleAvatar(
+          //   radius: 50.0,
+          //   backgroundImage: AssetImage("assets/images/logo.png"),
+          // ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Image(
+                image: AssetImage("assets/images/logo-with-text.png"),
+              ),
+            ),
+          ),
           SizedBox(height: 15),
           Text(
             'Welcome ' + userInfo.getfirstName,
@@ -87,8 +119,6 @@ Widget header(BuildContext context, var userInfo) {
               ),
             ),
             onPressed: () {
-              // TODO: Close drawer before opening this page OR after closing this page
-              // controller.toggle();
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -142,7 +172,7 @@ Widget footer(
           height: 10,
         ),
         Text(
-          'Developed by DBIT',
+          'Developed by DBIT SevaTech',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,

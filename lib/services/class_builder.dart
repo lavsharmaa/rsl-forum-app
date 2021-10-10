@@ -1,4 +1,4 @@
-import '../screens/admin/events/admin_events.dart';
+import '../screens/admin/posts/admin_events.dart';
 import '../screens/events/user_events.dart';
 import '../screens/contact_us/contact_us.dart';
 

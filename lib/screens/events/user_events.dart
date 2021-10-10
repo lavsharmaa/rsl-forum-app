@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'user_event_details.dart';
+import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../models/User.dart';
-import '../../drawers_constants/drawer.dart';
+import '../../drawers_constants/user_drawer.dart';
 import '../../widgets/alert_dialogs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -172,6 +173,7 @@ class _EventsState extends State<Events> {
           child: Center(
             child: Stack(
               children: <Widget>[
+                EventPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,

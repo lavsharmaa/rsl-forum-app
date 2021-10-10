@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
+import 'search_user.dart';
+import '../../../../widgets/blue_bubble_design.dart';
 import '../../../../widgets/constants.dart';
 import '../../../../widgets/gradient_button.dart';
 
@@ -13,6 +15,7 @@ class EditUserProfile extends StatefulWidget {
       lastName,
       phoneNumber,
       emailId,
+      userRole,
       gender,
       placeOfWork;
   DateTime dateOfBirth;
@@ -24,6 +27,7 @@ class EditUserProfile extends StatefulWidget {
     required this.phoneNumber,
     required this.emailId,
     required this.dateOfBirth,
+    required this.userRole,
     required this.gender,
     required this.placeOfWork,
   });
@@ -34,9 +38,10 @@ class EditUserProfile extends StatefulWidget {
         lastName,
         phoneNumber,
         emailId,
+        userRole,
         gender,
+        placeOfWork,
         dateOfBirth,
-        placeOfWork
       );
 }
 
@@ -45,11 +50,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
   String lastName = '';
   String email = '';
   String phoneNumber = '';
+  String userRole = '';
   String gender = "";
   late DateTime dateOfBirth;
+  String placeOfWork = '';
   String uid = '';
   var userInfo;
-  String placeOfWork = "";
 
   _EditUserProfileState(
     this.uid,
@@ -57,9 +63,10 @@ class _EditUserProfileState extends State<EditUserProfile> {
     this.lastName,
     this.phoneNumber,
     this.email,
+    this.userRole,
     this.gender,
-    this.dateOfBirth,
     this.placeOfWork,
+    this.dateOfBirth,
   );
 
   final GlobalKey<FormState> _formKey =
@@ -78,8 +85,10 @@ class _EditUserProfileState extends State<EditUserProfile> {
       _genderRadioValue = value!;
       if (_genderRadioValue == 0) {
         gender = "Female";
-      } else {
+      } else if (_genderRadioValue == 1) {
         gender = "Male";
+      } else {
+        gender = "Decline to state";
       }
       print("gender selected: $gender");
     });
@@ -150,6 +159,27 @@ class _EditUserProfileState extends State<EditUserProfile> {
     );
   }
 
+  Future<dynamic> savePressed() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+              'Your request to change information has been successfully sent!'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Continue'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     String gender = widget.gender;
@@ -185,11 +215,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   // circle design and Title
                   Stack(
                     children: <Widget>[
+                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "RSL Forum",
+                            "YWCA OF BOMBAY",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,
@@ -406,34 +437,62 @@ class _EditUserProfileState extends State<EditUserProfile> {
                             ),
                           ),
                           SizedBox(height: _height * 0.015),
-                          TextFormField(
-                            initialValue: placeOfWork,
-                            keyboardType: TextInputType.text,
-                            onSaved: (value) {
-                              setState(() {
-                                placeOfWork = value!;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.account_circle,
-                                color: secondaryColor,
-                              ),
-                              labelText: 'Place of work',
-                              filled: true,
-                              fillColor: formFieldFillColor,
-                              disabledBorder: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: formFieldFillColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: formFieldFillColor),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              errorBorder: InputBorder.none,
+                          Text(
+                            'User Role',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                              // left: _width * 0.262,
+                              // right: _width * 0.262,
+                              left: _width * 0.24,
+                              right: _width * 0.24,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: formFieldFillColor,
+                              // border: Border.all(),
+                            ),
+                            child: DropdownButton<String>(
+                              value: userRole,
+                              icon: Icon(Icons.arrow_drop_down_rounded),
+                              elevation: 16,
+                              underline: Container(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  userRole = value!;
+                                  print(userRole);
+                                });
+                              },
+                              items: <String>[
+                                'Admin',
+                                'Staff',
+                                'Member',
+                                'NonMember',
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Center(
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        letterSpacing: 2,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
                           SizedBox(height: _height * 0.015),
@@ -509,11 +568,108 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                 hoverColor: secondaryColor,
                                 activeColor: secondaryColor,
                               ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _genderRadioValue = 2;
+                                      _handleGenderRadioValueChange(
+                                          _genderRadioValue);
+                                    });
+                                  },
+                                  child: Text(
+                                    'Decline to state',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
+                          ),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    '(Leave blank if retired)',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    top: 2.5,
+                                    bottom: 2.5,
+                                    right: 3,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 10,
                           ),
+                          TextFormField(
+                            initialValue: placeOfWork,
+                            keyboardType: TextInputType.text,
+                            onSaved: (value) {
+                              setState(() {
+                                if (value == '') {
+                                  placeOfWork = 'Retired';
+                                } else {
+                                  placeOfWork = value!;
+                                }
+                              });
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.location_city,
+                                color: secondaryColor,
+                              ),
+                              labelText: 'Place of work/school/college',
+                              filled: true,
+                              disabledBorder: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: formFieldFillColor),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: formFieldFillColor),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              errorBorder: InputBorder.none,
+                            ),
+                          ),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    '(Leave blank if retired)',
+                                    style: TextStyle(
+                                      color: primaryColor,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    top: 2.5,
+                                    bottom: 2.5,
+                                    right: 3,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(height: _height * 0.005),
                           GradientButton(
                             buttonText: 'Update Profile',
                             screenHeight: _height,
@@ -530,14 +686,24 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                   .collection("users")
                                   .doc(uid)
                                   .update({
-                                "placeOfWork": placeOfWork,
                                 "firstName": firstName,
                                 "lastName": lastName,
                                 "dateOfBirth": dateOfBirth,
                                 "emailId": email,
                                 "gender": gender,
+                                "placeOfWork": placeOfWork,
                                 "uid": uid,
-                              });
+                                "memberRole": userRole,
+                              }).then((value) async {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SearchUser()),
+                                    (route) => false);
+                              }).catchError(
+                                (error) =>
+                                    print("Failed to update user: $error"),
+                              );
 
                               // Navigator.pop(context);
                               // Navigator.pop(context);

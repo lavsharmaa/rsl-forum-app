@@ -12,3 +12,15 @@ A new Flutter project.
 ## v0.1.1
 - About us (Text pending)
 - Contact us (Formatting pending)
+
+# v0.1.2
+Checked and working fine
+- Login
+- Register
+- View Profile
+- Edit Profile
+- New Post
+- View Post
+- Post Detail
+- Contact Us
+- About Us

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'register.dart';
 import '../../models/User.dart';
 import '../../screens/events/user_events.dart';
+import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/gradient_button.dart';
 
@@ -18,7 +19,10 @@ class RegisterOtp extends StatefulWidget {
   final String emailId;
   final String phoneNumber;
   final String gender;
+  final String profession;
   final String placeOfWork;
+  final String nearestCenter;
+  final String interestInMembership;
 
   const RegisterOtp({
     required this.firstName,
@@ -27,7 +31,10 @@ class RegisterOtp extends StatefulWidget {
     required this.emailId,
     required this.phoneNumber,
     required this.gender,
+    required this.profession,
     required this.placeOfWork,
+    required this.nearestCenter,
+    required this.interestInMembership,
   });
 
   @override
@@ -38,7 +45,10 @@ class RegisterOtp extends StatefulWidget {
         emailId,
         phoneNumber,
         gender,
+        profession,
         placeOfWork,
+        nearestCenter,
+        interestInMembership,
       );
 }
 
@@ -53,7 +63,10 @@ class _RegisterOtpState extends State<RegisterOtp>
   final String emailId;
   final String phoneNumber;
   final String gender;
+  final String profession;
   final String placeOfWork;
+  final String nearestCenter;
+  final String interestInMembership;
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String _verificationCode = "";
   _RegisterOtpState(
@@ -63,7 +76,10 @@ class _RegisterOtpState extends State<RegisterOtp>
     this.emailId,
     this.phoneNumber,
     this.gender,
+    this.profession,
     this.placeOfWork,
+    this.nearestCenter,
+    this.interestInMembership,
   );
   AnimationController? _controller;
   var otp;
@@ -123,8 +139,12 @@ class _RegisterOtpState extends State<RegisterOtp>
             "emailId": emailId,
             "phoneNumber": phoneNumber,
             "gender": gender,
+            "profession": profession,
             "placeOfWork": placeOfWork,
+            "nearestCenter": nearestCenter,
+            "interestInMembership": interestInMembership,
             "memberRole": "NonMember",
+            "address": "",
           };
           userInfo.updateAfterAuth(
               value.user!.uid,
@@ -134,7 +154,10 @@ class _RegisterOtpState extends State<RegisterOtp>
               emailId,
               phoneNumber,
               gender,
+              profession,
               placeOfWork,
+              nearestCenter,
+              interestInMembership,
               "NonMember",
               "");
           CollectionReference<Map<String, dynamic>> users =
@@ -211,6 +234,8 @@ class _RegisterOtpState extends State<RegisterOtp>
       children: <Widget>[
         Stack(
           children: <Widget>[
+            // circle design
+            MainPageBlueBubbleDesign(),
             Positioned(
               child: AppBar(
                 centerTitle: true,
@@ -318,6 +343,9 @@ class _RegisterOtpState extends State<RegisterOtp>
               gender: this.gender,
               dateOfBirth: this.dateOfBirth,
               phoneNumber: this.phoneNumber,
+              profession: this.profession,
+              nearestCenter: this.nearestCenter,
+              interestInMembership: this.interestInMembership,
             ),
           ),
         );

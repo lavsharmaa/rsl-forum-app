@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'user_events.dart';
 import '../../models/User.dart';
+import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
 import '../../widgets/zoom_image.dart';
@@ -181,27 +182,7 @@ class _DetailPageState extends State<DetailPage> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
-                // show it when the event is for members and the user is not a member
-                // then become a member button is show
-                if (role == 'NonMember' && eventType == 'Everyone') ...[
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(_width * 0.35, 0, 0, 0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF00bbe4),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                        child: Text(
-                          "Become a member",
-                          style: new TextStyle(
-                              fontSize: 18.0, color: Colors.white),
-                        ),
-                      )),
-                ],
+                AdminDetailPageBlueBubbleDesign(),
                 Center(child: _buildImage()),
                 SizedBox(
                   height: _height * 0.015,
@@ -377,50 +358,6 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ],
-                      if (eventType == 'Everyone' &&
-                          eventDeadline.compareTo(now) >= 0) ...[
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: _height * 0.015,
-                          ),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                firstButtonGradientColor,
-                                firstButtonGradientColor,
-                                secondButtonGradientColor
-                              ],
-                              begin: FractionalOffset.centerLeft,
-                              end: FractionalOffset.centerRight,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                          ),
-                          child: FractionallySizedBox(
-                            widthFactor: 1,
-                            child: TextButton(
-                              child: Text(
-                                'Register!',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onPressed: () {
-                                if (registered) {
-                                  showAlreadyRegisterAlertDialog(context);
-                                } else {
-                                  registered = true;
-                                  showRegisterAlertDialog(
-                                      context, id, eventName, auth);
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
                       SizedBox(height: _height * 0.015),
                       if (eventDeadline.compareTo(now) < 0) ...[
                         Center(
@@ -456,3 +393,4 @@ goBackToPreviousScreen(BuildContext context) {
     MaterialPageRoute(builder: (context) => Events()),
   );
 }
+

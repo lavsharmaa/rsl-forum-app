@@ -17,8 +17,16 @@ class UserData extends ChangeNotifier{
   String get getgender => gender ;
   String placeOfWork = '';
   String get getplaceOfWork => placeOfWork ;
+  String memberRole = '';
+  String get getmemberRole => memberRole;
 
-  updateAfterAuth(uuid, fName, lName, dob, email, phone, genderchoice, pow, role){
+  //
+  // updateName(fName){
+  // firstName = fName;
+  // notifyListeners();
+  // }
+
+  updateAfterAuth(uuid,fName, lName, dob, email, phone, genderchoice, pow, role){
     uid =uuid;
     firstName = fName;
     lastName = lName;
@@ -27,6 +35,7 @@ class UserData extends ChangeNotifier{
     phoneNumber = phone;
     gender = genderchoice;
     placeOfWork = pow;
+    memberRole = role;
     notifyListeners();
   }
 

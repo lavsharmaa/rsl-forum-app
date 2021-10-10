@@ -10,7 +10,7 @@ import 'admin_event_details.dart';
 import 'admin_edit_event.dart';
 import 'admin_new_event.dart';
 
-import '../../../drawers_constants/drawer.dart';
+import '../../../drawers_constants/admin_drawer.dart';
 import '../../../models/User.dart';
 import '../../../widgets/constants.dart';
 import 'package:intl/intl.dart';

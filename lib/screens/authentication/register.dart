@@ -8,6 +8,7 @@ import 'login.dart';
 import 'register_otp.dart';
 
 import '../../models/User.dart';
+import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
 import '../../widgets/gradient_button.dart';
@@ -25,7 +26,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String emailId = '';
   String phoneNumber = '';
   String gender = "Female";
-  String placeOfWork = "";
   var userInfo;
 
   final GlobalKey<FormState> _formKey =
@@ -37,15 +37,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   DateTime selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
 
-  // female-0, male-1
+  // female-0, male-1, decline to state-2
   int _genderRadioValue = 0;
   void _handleGenderRadioValueChange(int? value) {
     setState(() {
       _genderRadioValue = value!;
       if (_genderRadioValue == 0) {
         gender = "Female";
-      } else {
+      } else if (_genderRadioValue == 1) {
         gender = "Male";
+      } else {
+        gender = "Decline to state";
       }
       print("gender selected: $gender");
     });
@@ -177,12 +179,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // circle design and Title
                   Stack(
                     children: <Widget>[
-                      // MainPageBlueBubbleDesign(),
+                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "RSL Forum",
+                            "YWCA OF BOMBAY",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,
@@ -490,6 +492,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Radio(
+                                value: 0,
+                                groupValue: _genderRadioValue,
+                                onChanged: _handleGenderRadioValueChange,
+                                focusColor: secondaryColor,
+                                hoverColor: secondaryColor,
+                                activeColor: secondaryColor,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _genderRadioValue = 0;
+                                      _handleGenderRadioValueChange(
+                                          _genderRadioValue);
+                                    });
+                                  },
+                                  child: Text(
+                                    'Female',
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Radio(
                                 value: 1,
                                 groupValue: _genderRadioValue,
                                 onChanged: _handleGenderRadioValueChange,
@@ -516,7 +544,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               Radio(
-                                value: 0,
+                                value: 2,
                                 groupValue: _genderRadioValue,
                                 onChanged: _handleGenderRadioValueChange,
                                 focusColor: secondaryColor,
@@ -527,13 +555,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      _genderRadioValue = 0;
+                                      _genderRadioValue = 2;
                                       _handleGenderRadioValueChange(
                                           _genderRadioValue);
                                     });
                                   },
                                   child: Text(
-                                    'Female',
+                                    'Decline to state',
                                     style: TextStyle(
                                       fontFamily: 'Montserrat',
                                       fontSize: 16,
@@ -643,7 +671,11 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
   final String gender;
   final DateTime dateOfBirth;
   var userInfo;
+
+  String profession = "";
   String placeOfWork = "";
+  String nearestCenter = "Chembur";
+  String interestInMembership = "Yes";
   _RegisterScreen2State(
     this.firstName,
     this.lastName,
@@ -664,7 +696,10 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     print(emailId);
     print(phoneNumber);
     print(gender);
+    print(profession);
     print(placeOfWork);
+    print(nearestCenter);
+    print(interestInMembership);
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -676,14 +711,36 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
           gender: gender,
           dateOfBirth: dateOfBirth,
           phoneNumber: phoneNumber,
+          profession: profession,
+          nearestCenter: nearestCenter,
+          interestInMembership: interestInMembership,
         ),
       ),
     );
   }
 
+  // yes-0, no-1, maybe-2
+  int _interestInMembershipRadioValue = 0;
+  void _handleInterestInMembershipRadioValueChange(int? value) {
+    setState(() {
+      _interestInMembershipRadioValue = value!;
+      if (_interestInMembershipRadioValue == 0) {
+        interestInMembership = "Yes";
+      } else if (_interestInMembershipRadioValue == 1) {
+        interestInMembership = "No";
+      } else {
+        interestInMembership = "Maybe";
+      }
+      print("Membership interest selected: $interestInMembership");
+    });
+  }
+
   @override
   void initState() {
     userInfo = userInfo;
+    setState(() {
+      interestInMembership = "Yes";
+    });
     super.initState();
   }
 
@@ -701,9 +758,9 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                 Stack(
                   // circle design
                   children: <Widget>[
-                    // Positioned(
-                    //   child: Image.asset("assets/images/circle-design.png"),
-                    // ),
+                    Positioned(
+                      child: Image.asset("assets/images/circle-design.png"),
+                    ),
                     Positioned(
                       child: Center(
                         child: Padding(
@@ -739,6 +796,64 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          onSaved: (String? value) {
+                            setState(() {
+                              if (value == '') {
+                                profession = 'Retired';
+                              } else {
+                                profession = value!;
+                              }
+                            });
+                          },
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                          ),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: secondaryColor,
+                            ),
+                            labelText: 'Profession',
+                            filled: true,
+                            fillColor: formFieldFillColor,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: secondaryColor),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: secondaryColor),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                child: Text(
+                                  '(Leave blank if retired)',
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                padding: EdgeInsets.only(
+                                  top: 2.5,
+                                  bottom: 2.5,
+                                  right: 3,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         TextFormField(
                           keyboardType: TextInputType.text,
                           onSaved: (value) {
@@ -797,7 +912,166 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                             ],
                           ),
                         ),
+                        Text(
+                          'Nearest YWCA Center',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            color: primaryColor,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: _width * 0.245,
+                            right: _width * 0.245,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: formFieldFillColor,
+                            // border: Border.all(),
+                          ),
+                          child: DropdownButton<String>(
+                            value: nearestCenter,
+                            icon: Icon(Icons.arrow_drop_down_rounded),
+                            elevation: 16,
+                            underline: Container(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                nearestCenter = value!;
+                                print(nearestCenter);
+                              });
+                            },
+                            items: <String>[
+                              'Andheri',
+                              'Bandra',
+                              'Belapur',
+                              'Borivali',
+                              'Byculla',
+                              'Chembur',
+                              'Fort',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Center(
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                         SizedBox(height: _height * 0.010),
+                        Text(
+                          'Interested in being a member?',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            color: primaryColor,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Radio(
+                              value: 0,
+                              groupValue: _interestInMembershipRadioValue,
+                              onChanged:
+                                  _handleInterestInMembershipRadioValueChange,
+                              focusColor: secondaryColor,
+                              hoverColor: secondaryColor,
+                              activeColor: secondaryColor,
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _interestInMembershipRadioValue = 0;
+                                    _handleInterestInMembershipRadioValueChange(
+                                        _interestInMembershipRadioValue);
+                                  });
+                                },
+                                child: Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Radio(
+                              value: 1,
+                              groupValue: _interestInMembershipRadioValue,
+                              onChanged:
+                                  _handleInterestInMembershipRadioValueChange,
+                              focusColor: secondaryColor,
+                              hoverColor: secondaryColor,
+                              activeColor: secondaryColor,
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _interestInMembershipRadioValue = 1;
+                                    _handleInterestInMembershipRadioValueChange(
+                                        _interestInMembershipRadioValue);
+                                  });
+                                },
+                                child: Text(
+                                  'No',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Radio(
+                              value: 2,
+                              groupValue: _interestInMembershipRadioValue,
+                              onChanged:
+                                  _handleInterestInMembershipRadioValueChange,
+                              focusColor: secondaryColor,
+                              hoverColor: secondaryColor,
+                              activeColor: secondaryColor,
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _interestInMembershipRadioValue = 2;
+                                    _handleInterestInMembershipRadioValueChange(
+                                        _interestInMembershipRadioValue);
+                                  });
+                                },
+                                child: Text(
+                                  'Maybe',
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: _height * 0.005),
                         GradientButton(
                           buttonText: 'Register',
                           screenHeight: _height,

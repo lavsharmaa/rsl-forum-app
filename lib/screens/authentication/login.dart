@@ -10,6 +10,7 @@ import 'register.dart';
 
 import '../../models/User.dart';
 import '../../widgets/alert_dialogs.dart';
+import '../../widgets/blue_bubble_design.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/gradient_button.dart';
 
@@ -71,7 +72,12 @@ class _LoginScreenState extends State<LoginScreen> {
           userdata['emailId'],
           userdata['phoneNumber'],
           userdata['gender'],
-          userdata['memberRole']);
+          userdata['profession'],
+          userdata['placeOfWork'],
+          userdata['nearestCenter'],
+          userdata['interestInMembership'],
+          userdata['memberRole'],
+          userdata['address']);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -102,11 +108,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
+                      // circle design
+                      MainPageBlueBubbleDesign(),
                       Positioned(
                         child: AppBar(
                           centerTitle: true,
                           title: Text(
-                            "RSL Forum",
+                            "YWCA OF BOMBAY",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w800,

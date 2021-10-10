@@ -2,7 +2,8 @@ import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import './edit_user_profile.dart';
-import '../events/admin_events.dart';
+import '../posts/admin_events.dart';
+import '../../../widgets/blue_bubble_design.dart';
 import '../../../widgets/constants.dart';
 import '../../../widgets/gradient_button.dart';
 
@@ -12,6 +13,7 @@ class UserProfileDetails extends StatefulWidget {
       lastName,
       phoneNumber,
       emailId,
+      memberRole,
       gender,
       placeOfWork;
   DateTime dateOfBirth;
@@ -23,6 +25,7 @@ class UserProfileDetails extends StatefulWidget {
       required this.phoneNumber,
       required this.emailId,
       required this.dateOfBirth,
+      required this.memberRole,
       required this.gender,
       required this.placeOfWork});
   @override
@@ -47,9 +50,10 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
         lastName = widget.lastName,
         phoneNumber = widget.phoneNumber,
         emailId = widget.emailId,
+        memberRole = widget.memberRole,
         gender = widget.gender,
-        uid = widget.uid,
-        placeOfWork = widget.placeOfWork;
+        placeOfWork = widget.placeOfWork,
+        uid = widget.uid;
     DateTime dateOfBirth = widget.dateOfBirth;
     String formattedDateOfBirth =
         DateFormat('dd MMM, yyyy').format(dateOfBirth);
@@ -61,11 +65,12 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
           children: [
             Stack(
               children: <Widget>[
+                MainPageBlueBubbleDesign(),
                 Positioned(
                   child: AppBar(
                     centerTitle: true,
                     title: Text(
-                      "RSL Forum",
+                      "YWCA OF BOMBAY",
                       style: TextStyle(
                         fontFamily: 'Raleway',
                         fontWeight: FontWeight.w800,
@@ -137,6 +142,17 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: _height * 0.02),
+                      if (memberRole != "Staff") ...[
+                        Text(
+                          'You can choose to edit this information by clicking the button at the bottom.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                      ],
+                      SizedBox(height: _height * 0.04),
                       //main_body
                       Container(
                         padding: EdgeInsets.all(20),
@@ -156,10 +172,15 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                             DetailText(
                                 text: 'Date Of Birth: $formattedDateOfBirth'),
                             SizedBox(height: 15),
+                            // User Role
+                            DetailText(text: 'User Role: $memberRole'),
+                            SizedBox(height: 15),
                             // Gender
                             DetailText(text: 'Gender: $gender'),
                             SizedBox(height: 15),
-                            DetailText(text: 'Place of work: $placeOfWork'),
+                            // Place of work/school/college
+                            DetailText(
+                                text: 'Institute/Organization: $placeOfWork'),
                             SizedBox(height: 15),
                           ],
                         ),
@@ -181,6 +202,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
                               phoneNumber,
                               emailId,
                               dateOfBirth,
+                              memberRole,
                               gender,
                               placeOfWork);
                         },
@@ -205,6 +227,7 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
       String phoneNumber,
       String emailId,
       DateTime dateOfBirth,
+      String memberRole,
       String gender,
       String placeOfWork) {
     // DateTime newdateOfBirth = dateOfBirth.toDate();
@@ -218,8 +241,9 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
           phoneNumber: phoneNumber,
           emailId: emailId,
           dateOfBirth: dateOfBirth,
+          userRole: memberRole,
           gender: gender,
-          placeOfWork: placeOfWork
+          placeOfWork: placeOfWork,
         ),
       ),
     );

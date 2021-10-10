@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../drawers_constants/drawer.dart' as Drawer;
+import '../../drawers_constants/admin_drawer.dart' as Drawer;
 import '../../models/User.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
