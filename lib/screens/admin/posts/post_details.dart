@@ -1,100 +1,95 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'user_events.dart';
-import '../../models/User.dart';
-import '../../widgets/constants.dart';
-import '../../widgets/alert_dialogs.dart';
-import '../../widgets/zoom_image.dart';
+import '../../../widgets/zoom_image.dart';
+import '../../../widgets/constants.dart';
+import 'post_comments.dart';
 
 // ignore: must_be_immutable
-class DetailPage extends StatefulWidget {
-  String id,
-      eventAmount,
-      eventDescription,
-      eventName,
-      eventImageUrl,
-      eventVenue,
-      eventType,
-      memberRole;
-  DateTime eventDate, eventDeadline;
-  String eventTime;
+class AdminEventDetailPage extends StatefulWidget {
+  String id, postTitle, postDescription, postCategory, postImageUrl, postAuthor;
+  int postClickCount, postCommentCount, postLikeCount;
+  DateTime postDate;
 
-  DetailPage({
+  AdminEventDetailPage({
     required this.id,
-    required this.eventAmount,
-    required this.eventDescription,
-    required this.eventName,
-    required this.eventImageUrl,
-    required this.eventVenue,
-    required this.eventType,
-    required this.eventDate,
-    required this.eventDeadline,
-    required this.eventTime,
-    required this.memberRole,
+    required this.postTitle,
+    required this.postDescription,
+    required this.postCategory,
+    required this.postImageUrl,
+    required this.postAuthor,
+    required this.postClickCount,
+    required this.postCommentCount,
+    required this.postLikeCount,
+    required this.postDate,
   });
   @override
-  _DetailPageState createState() => _DetailPageState(eventImageUrl, id);
+  _AdminEventDetailPageState createState() =>
+      _AdminEventDetailPageState(id, postImageUrl);
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  var userInfo;
-  String memberRole = "";
-  String role = "";
-  var now = new DateTime.now();
-  late String eventImageUrl, id, userID;
-  late bool registered;
-  _DetailPageState(this.eventImageUrl, this.id);
+  late String id;
+  late String postImageUrl;
+  int postClickCount = 0;
+  int postCommentCount = 0;
+
+  _AdminEventDetailPageState(this.id, this.postImageUrl);
+
+  String readpostdate(Timestamp eventpostdate) {
+    DateTime newpostdate = eventpostdate.toDate();
+    String formattedpostdate =
+        DateFormat('EEE | dd MMM, yyyy', 'en').format(newpostdate);
+    return formattedpostdate;
+  }
+
+  void analyticsData() async {
+    await FirebaseFirestore.instance
+        .collection('eventRegistration')
+        .where('eventID', isEqualTo: id)
+        .get()
+        .then((querySnapshot) {
+      setState(() {
+        postCommentCount += querySnapshot.size;
+      });
+    });
+    await FirebaseFirestore.instance
+        .collection('eventClick')
+        .where('eventID', isEqualTo: id)
+        .get()
+        .then((querySnapshot) {
+      setState(() {
+        postClickCount += querySnapshot.size;
+      });
+    });
+  }
 
   @override
   void initState() {
-    userInfo = Provider.of<UserData>(context, listen: false);
-    role = userInfo.getmemberRole;
-    userID = userInfo.getuid;
-    checkIfRegistered();
     super.initState();
-  }
-
-  void checkIfRegistered() {
-    FirebaseFirestore.instance
-        .collection('eventRegistration')
-        .where('eventID', isEqualTo: id)
-        .where('userID', isEqualTo: userID)
-        .get()
-        .then((value) {
-      if (value.size > 0) {
-        setState(() {
-          registered = true;
-        });
-      } else {
-        setState(() {
-          registered = false;
-        });
-      }
-    });
+    analyticsData();
   }
 
   Widget _buildImage() {
     // ignore: unnecessary_null_comparison
-    if (eventImageUrl != "") {
+    if (postImageUrl != "") {
       return ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: GestureDetector(
           child: Image.network(
-            eventImageUrl,
+            postImageUrl,
             height: 300,
           ),
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ZoomImageNetwork(eventImageUrl),
+                builder: (context) => ZoomImageNetwork(postImageUrl),
               ),
             );
           },
@@ -112,23 +107,25 @@ class _DetailPageState extends State<DetailPage> {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
     // fetching the values
-    String id = widget.id,
-        eventAmount = widget.eventAmount,
-        eventDescription = widget.eventDescription,
-        eventName = widget.eventName,
-        eventVenue = widget.eventVenue,
-        eventType = widget.eventType;
-    DateTime eventDate = widget.eventDate;
-    DateTime eventDeadline = widget.eventDeadline;
-    String eventTime = widget.eventTime;
-    // event date
-    String formattedEventDate = DateFormat('dd MMM, yyyy').format(eventDate);
-    // event deadline
-    String formattedDeadlineDate =
-        DateFormat('dd MMM yyyy').format(eventDeadline);
+    id = widget.id;
+    String postTitle = widget.postTitle,
+        postDescription = widget.postDescription,
+        postCategory = widget.postCategory,
+        postImageUrl = widget.postImageUrl,
+        postAuthor = widget.postAuthor;
+    int postClickCount = widget.postClickCount,
+        postCommentCount = widget.postCommentCount,
+        postLikeCount = widget.postLikeCount;
+    DateTime date = widget.postDate;
+
+    // event date conversion to string for displaying
+    String formattedDate = DateFormat('dd MMM, yyyy', 'en').format(date);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(
           "RSL Forum",
           style: TextStyle(
@@ -148,22 +145,12 @@ class _DetailPageState extends State<DetailPage> {
             onPressed: () {
               final RenderBox box = context.findRenderObject() as RenderBox;
               Share.share(
-                  "Event: $eventName" +
-                      "\nDescription: $eventDescription" +
-                      "\n\n Date: $formattedEventDate  Time: $eventTime" +
-                      "\nVenue: $eventVenue" +
-                      "\n\n Contact before $formattedDeadlineDate to register: " +
-                      "\nShoba Balla: +919833393953" +
-                      "\nMildin Nadar: +918828024246" +
-                      "\n\nDownload app from Google Play to register for the $eventName:" +
-                      "\nhttps://play.google.com/store/apps/details?id=com.sevatech.ywca",
+                  "Title: $postTitle" + "\nDescription: $postDescription",
                   sharePositionOrigin:
                       box.localToGlobal(Offset.zero) & box.size);
             },
           ), //IconButton
         ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -179,8 +166,10 @@ class _DetailPageState extends State<DetailPage> {
         child: SingleChildScrollView(
           child: Container(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(
+                  height: _height * 0.05,
+                ),
                 Center(child: _buildImage()),
                 SizedBox(
                   height: _height * 0.015,
@@ -198,7 +187,7 @@ class _DetailPageState extends State<DetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          eventName,
+                          postTitle,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 20,
@@ -206,9 +195,7 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: _height * 0.015,
-                      ),
+                      SizedBox(height: _height * 0.015),
                       Padding(
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
@@ -219,8 +206,7 @@ class _DetailPageState extends State<DetailPage> {
                                 child: Icon(Icons.calendar_today_outlined),
                               ),
                               TextSpan(
-                                text:
-                                    " " + formattedEventDate + ", " + eventTime,
+                                text: " " + formattedDate,
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 18,
@@ -241,7 +227,7 @@ class _DetailPageState extends State<DetailPage> {
                                 child: Icon(Icons.location_on),
                               ),
                               TextSpan(
-                                text: eventVenue,
+                                text: postCategory,
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 16,
@@ -256,12 +242,11 @@ class _DetailPageState extends State<DetailPage> {
                       SizedBox(
                         height: _height * 0.015,
                       ),
-                      SizedBox(height: _height * 0.015),
                       Padding(
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          eventDescription,
+                          postDescription,
                           style: TextStyle(
                             fontSize: 16,
                             color: Color(0xff000000),
@@ -275,7 +260,7 @@ class _DetailPageState extends State<DetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          '₹ ' + eventAmount,
+                          'Category: ' + postCategory,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -288,7 +273,7 @@ class _DetailPageState extends State<DetailPage> {
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          'Event for: ' + eventType,
+                          'Posted on: ' + formattedDate,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -296,25 +281,24 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: _height * 0.015),
+                      SizedBox(
+                        height: _height * 0.015,
+                      ),
                       Padding(
                         padding:
                             EdgeInsets.fromLTRB(_width * 0.08, 0.0, 0, 0.0),
                         child: Text(
-                          '❌ Deadline: ' + formattedDeadlineDate,
+                          'Like:  ' + postLikeCount.toString(),
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
-                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
-                      SizedBox(height: _height * 0.015),
-                      // Register button
-                      if ((role == 'Member' || role == 'Staff') &&
-                          eventType == 'Members only' &&
-                          eventDeadline.compareTo(now) >= 0) ...[
-                        Container(
+                      SizedBox(
+                        height: _height * 0.015,
+                      ),
+                      Container(
                           padding: EdgeInsets.symmetric(
                             vertical: _height * 0.015,
                           ),
@@ -334,7 +318,7 @@ class _DetailPageState extends State<DetailPage> {
                             widthFactor: 1,
                             child: TextButton(
                               child: Text(
-                                'Register!',
+                                'Comments',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -344,34 +328,11 @@ class _DetailPageState extends State<DetailPage> {
                                 ),
                               ),
                               onPressed: () {
-                                if (registered) {
-                                  showAlreadyRegisterAlertDialog(context);
-                                } else {
-                                  registered = true;
-                                  showRegisterAlertDialog(
-                                      context, id, eventName, auth);
-                                }
+                                goToCommentScreen(context);
                               },
                             ),
                           ),
                         ),
-                      ],
-                      SizedBox(height: _height * 0.015),
-                      if (eventDeadline.compareTo(now) < 0) ...[
-                        Center(
-                          child: Text(
-                            'Event Date has passed\n'
-                            'Contact 8828024246 for more details',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Montserrat',
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
                     ],
                   ),
                 ),
@@ -385,9 +346,12 @@ class _DetailPageState extends State<DetailPage> {
 }
 
 goBackToPreviousScreen(BuildContext context) {
-  // Navigator.pop(context);
+  Navigator.pop(context);
+}
+
+goToCommentScreen(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => Events()),
+    MaterialPageRoute(builder: (context) => Comments()),
   );
 }

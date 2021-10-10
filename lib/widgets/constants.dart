@@ -16,3 +16,5 @@ final successStoriesCardBgColor = const Color(0xffcdf1ef);
 final contactUsBgColor = const Color(0xffb5f4f7);
 final contactUsCardColor = const Color(0xffffffff);
 final contactUsBorderColor = const Color(0xff888888);
+
+final orangeColor = const Color(0xFFFF7824);

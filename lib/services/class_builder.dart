@@ -1,5 +1,5 @@
-import '../screens/admin/posts/admin_events.dart';
-import '../screens/events/user_events.dart';
+import '../screens/admin/posts/post_list.dart';
+import '../screens/events/post_list.dart';
 import '../screens/contact_us/contact_us.dart';
 
 typedef T Constructor<T>();

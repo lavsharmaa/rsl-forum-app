@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
@@ -8,7 +7,6 @@ import '../../drawers_constants/admin_drawer.dart' as Drawer;
 import '../../models/User.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/alert_dialogs.dart';
-import '../../widgets/zoom_image.dart';
 
 // ignore: must_be_immutable
 class AboutUs extends StatefulWidget {
@@ -17,17 +15,6 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
-  final imagePathList = [
-    'assets/images/about_us/Ywca_spotlight_1.jpg',
-    'assets/images/about_us/Ywca_spotlight_2.jpg',
-    'assets/images/about_us/Ywca_spotlight_3.jpg',
-  ];
-  final imageTitleList = [
-    'Samuel Monteiro',
-    'Lav Sharma',
-    'Rutuja Bhate',
-  ];
-
   final DrawerScaffoldController controller = DrawerScaffoldController();
   late int selectedMenuItemId;
 
@@ -131,7 +118,7 @@ class _AboutUsState extends State<AboutUs> {
                           child: Column(
                             children: [
                               Text(
-                                'OUR STORY',
+                                'About Us',
                                 style: TextStyle(
                                   fontSize: 35,
                                   color: primaryColor,
@@ -146,86 +133,6 @@ class _AboutUsState extends State<AboutUs> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              CarouselSlider(
-                                options: CarouselOptions(
-                                  // height of whole carousel - including image and text
-                                  // height: 290,
-                                  height: _height * 0.28,
-                                  autoPlay: true,
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      _currentIndex = index;
-                                    });
-                                  },
-                                ),
-                                items: imagePathList.map((pathOfImage) {
-                                  int index =
-                                      imagePathList.indexOf(pathOfImage);
-                                  return Builder(
-                                    builder: (BuildContext context) {
-                                      return Column(
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Card(
-                                                margin: EdgeInsets.only(
-                                                  top: 10.0,
-                                                  bottom: 10.0,
-                                                ),
-                                                elevation: 6.0,
-                                                shadowColor: Colors.blueGrey,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(30.0),
-                                                  ),
-                                                  child: GestureDetector(
-                                                    child: Image(
-                                                      image: AssetImage(
-                                                          pathOfImage),
-                                                      fit: BoxFit.cover,
-                                                      width: double.infinity,
-                                                      height: 160,
-                                                    ),
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ZoomImageAsset(
-                                                                  pathOfImage),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(height: _height * 0.01),
-                                          Text(
-                                            imageTitleList[index],
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Montserrat',
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          )
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }).toList(),
                               ),
                             ],
                           ),
@@ -258,14 +165,6 @@ class _AboutUsState extends State<AboutUs> {
                               fontFamily: 'Montserrat',
                             ),
                             textAlign: TextAlign.left,
-                          ),
-                          Text(
-                            'It is one of the oldest non-profit community service organizations for women In India, which is based on the biblical principle \"Love thy neighbour as thyself\".\n',
-                            style: TextStyle(
-                              fontSize: 16,
-                              height: 1.25,
-                              fontFamily: 'Montserrat',
-                            ),
                           ),
                           // ),
                           SizedBox(

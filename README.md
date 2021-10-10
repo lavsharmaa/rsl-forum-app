@@ -30,3 +30,8 @@ Checked and working fine
 - Edit your post
 - Delete your post
 - Code cleaned and unwanted code removed
+
+# v0.1.4
+- Code cleaned and unwanted code removed
+- Comment list implemented
+- Add comment pending

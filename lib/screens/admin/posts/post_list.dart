@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../widgets/alert_dialogs.dart';
 
-import 'admin_event_details.dart';
-import 'admin_new_event.dart';
+import 'post_details.dart';
+import 'new_post.dart';
 
 import '../../../drawers_constants/admin_drawer.dart';
 import '../../../models/User.dart';

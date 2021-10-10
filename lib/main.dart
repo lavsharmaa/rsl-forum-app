@@ -10,11 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/User.dart';
 import 'screens/about_us/about_us.dart';
-import 'screens/admin/posts/admin_events.dart';
+import 'screens/admin/posts/post_list.dart';
 import 'screens/authentication/login.dart';
 import 'screens/authentication/register.dart';
 import 'screens/contact_us/contact_us.dart';
-import 'screens/events/user_events.dart';
+import 'screens/events/post_list.dart';
 import 'screens/onboarding.dart';
 import 'services/class_builder.dart';
 

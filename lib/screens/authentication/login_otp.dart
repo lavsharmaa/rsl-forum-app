@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'login.dart';
 import '../../models/User.dart';
-import '../../screens/events/user_events.dart';
-import '../../screens/admin/posts/admin_events.dart';
+import '../events/post_list.dart';
+import '../admin/posts/post_list.dart';
 import '../../widgets/constants.dart';
 import '../../widgets/gradient_button.dart';
 
