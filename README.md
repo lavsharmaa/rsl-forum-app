@@ -35,3 +35,7 @@ Checked and working fine
 - Code cleaned and unwanted code removed
 - Comment list implemented
 - Add comment pending
+
+# v0.1.5
+- Post like done
+- Post Comment done

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -8,8 +7,10 @@ import 'package:share/share.dart';
 import '../../../widgets/zoom_image.dart';
 import '../../../widgets/constants.dart';
 import 'post_comments.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import '../../../models/User.dart';
 
-// ignore: must_be_immutable
 class AdminEventDetailPage extends StatefulWidget {
   String id, postTitle, postDescription, postCategory, postImageUrl, postAuthor;
   int postClickCount, postCommentCount, postLikeCount;
@@ -38,45 +39,11 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
   late String postImageUrl;
   int postClickCount = 0;
   int postCommentCount = 0;
+  var userInfo;
 
   _AdminEventDetailPageState(this.id, this.postImageUrl);
 
-  String readpostdate(Timestamp eventpostdate) {
-    DateTime newpostdate = eventpostdate.toDate();
-    String formattedpostdate =
-        DateFormat('EEE | dd MMM, yyyy', 'en').format(newpostdate);
-    return formattedpostdate;
-  }
-
-  void analyticsData() async {
-    await FirebaseFirestore.instance
-        .collection('eventRegistration')
-        .where('eventID', isEqualTo: id)
-        .get()
-        .then((querySnapshot) {
-      setState(() {
-        postCommentCount += querySnapshot.size;
-      });
-    });
-    await FirebaseFirestore.instance
-        .collection('eventClick')
-        .where('eventID', isEqualTo: id)
-        .get()
-        .then((querySnapshot) {
-      setState(() {
-        postClickCount += querySnapshot.size;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    analyticsData();
-  }
-
   Widget _buildImage() {
-    // ignore: unnecessary_null_comparison
     if (postImageUrl != "") {
       return ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -102,6 +69,41 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
     }
   }
 
+  addLike(context, String postId) {
+    // fetching user id
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final userID = user?.uid;
+    // fetching username
+    final userName = userInfo.getfirstName + " " + userInfo.getlastName;
+    // adding to discussion like
+    FirebaseFirestore.instance
+        .collection('likes')
+        .where('postId', isEqualTo: postId)
+        .where('userId', isEqualTo: userID)
+        .get()
+        .then((checkSnapshot) {
+      if (checkSnapshot.size > 0) {
+        print("already liksed");
+      } else {
+        // incrementing likes in discussion
+        final DocumentReference docRef =
+            FirebaseFirestore.instance.collection("discussions").doc(postId);
+        docRef.update({"postLikeCount": FieldValue.increment(1)});
+        print("adding");
+        FirebaseFirestore.instance
+            .collection('likes')
+            .add({'postId': postId, 'likePerson': userName, 'userId': userID});
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    userInfo = Provider.of<UserData>(context, listen: false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
@@ -118,7 +120,7 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
         postLikeCount = widget.postLikeCount;
     DateTime date = widget.postDate;
 
-    // event date conversion to string for displaying
+    // post date conversion
     String formattedDate = DateFormat('dd MMM, yyyy', 'en').format(date);
 
     return Scaffold(
@@ -224,10 +226,10 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                                 ),
                               ),
                               WidgetSpan(
-                                child: Icon(Icons.location_on),
+                                child: Icon(Icons.person),
                               ),
                               TextSpan(
-                                text: postCategory,
+                                text: postAuthor,
                                 style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 16,
@@ -298,46 +300,81 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                       SizedBox(
                         height: _height * 0.015,
                       ),
+                      // like the post
+
                       Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: _height * 0.015,
+                        padding: EdgeInsets.symmetric(
+                          vertical: _height * 0.015,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              firstButtonGradientColor,
+                              firstButtonGradientColor,
+                              secondButtonGradientColor
+                            ],
+                            begin: FractionalOffset.centerLeft,
+                            end: FractionalOffset.centerRight,
                           ),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                firstButtonGradientColor,
-                                firstButtonGradientColor,
-                                secondButtonGradientColor
-                              ],
-                              begin: FractionalOffset.centerLeft,
-                              end: FractionalOffset.centerRight,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                          ),
-                          child: FractionallySizedBox(
-                            widthFactor: 1,
-                            child: TextButton(
-                              child: Text(
-                                'Comments',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        child: FractionallySizedBox(
+                          widthFactor: 1,
+                          child: TextButton(
+                            child: Text(
+                              'Like',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                              onPressed: () {
-                                goToCommentScreen(
-                                  context,
-                                  postId: postTitle,
-                                  ownerId: postAuthor,
-                                  mediaUrl: postImageUrl,
-                                );
-                              },
                             ),
+                            onPressed: () {
+                              addLike(context, id);
+                            },
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: _height * 0.015,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: _height * 0.015,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              firstButtonGradientColor,
+                              firstButtonGradientColor,
+                              secondButtonGradientColor
+                            ],
+                            begin: FractionalOffset.centerLeft,
+                            end: FractionalOffset.centerRight,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        child: FractionallySizedBox(
+                          widthFactor: 1,
+                          child: TextButton(
+                            child: Text(
+                              'Comments',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Montserrat',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              goToCommentScreen(context, id);
+                            },
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -354,15 +391,14 @@ goBackToPreviousScreen(BuildContext context) {
   Navigator.pop(context);
 }
 
-goToCommentScreen(BuildContext context, {required String  postId, required String ownerId, required String mediaUrl } ) {
+goToCommentScreen(
+  BuildContext context,
+  String postId,
+) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context)
-  {
-    return Comments(
-      postId: postId,
-      postOwnerId: ownerId,
-      postMediaUrl: mediaUrl,
-    );
-  }));
+    MaterialPageRoute(
+      builder: (context) => Comments(postId: postId),
+    ),
+  );
 }

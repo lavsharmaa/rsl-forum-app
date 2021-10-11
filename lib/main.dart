@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
-    return Discussions();
+    return Splash();
   }
 }
 
@@ -107,7 +107,7 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
       } else {
 
             Navigator.of(context).pushReplacement(
-                new MaterialPageRoute(builder: (context) => new Discussions()));
+                new MaterialPageRoute(builder: (context) => new LoginScreen()));
       }
     } else {
       await prefs.setBool('seen', true);

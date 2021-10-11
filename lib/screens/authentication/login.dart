@@ -69,12 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
           userdata['emailId'],
           userdata['phoneNumber'],
           userdata['gender'],
-          userdata['profession'],
           userdata['placeOfWork'],
-          userdata['nearestCenter'],
-          userdata['interestInMembership'],
-          userdata['memberRole'],
-          userdata['address']);
+          userdata['memberRole']);
       Navigator.push(
         context,
         MaterialPageRoute(

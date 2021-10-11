@@ -1,109 +1,50 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../drawers_constants/admin_drawer.dart';
 import '../../../models/User.dart';
-import '../../../widgets/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
 class Comments extends StatefulWidget {
-  final String postId;
-  final String postOwnerId;
-  final String postMediaUrl;
+  String postId = "";
 
   Comments({
     required this.postId,
-    required this.postOwnerId,
-    required this.postMediaUrl,
-});
-
+  });
   @override
-  CommentsState createState() => CommentsState(
-      postId: this.postId,
-      postOwnerId: this.postOwnerId,
-      postMediaUrl: this.postMediaUrl,
-  );
+  CommentsState createState() => CommentsState(postId);
 }
 
- class CommentsState extends State<Comments> {
+class CommentsState extends State<Comments> {
   TextEditingController commentController = TextEditingController();
 
-  final String postId;
-  final String postOwnerId;
-  final String postMediaUrl;
+  String postId = "";
+  String postComment = "";
 
-  // ignore: non_constant_identifier_names
-  CommentsState({
-    required this.postId,
-    required this.postOwnerId,
-    required this.postMediaUrl,
-  });
+  CommentsState(this.postId);
 
   final DrawerScaffoldController controller = DrawerScaffoldController();
   late int selectedMenuItemId;
   var userInfo;
   var screenSize;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  // conversion of event postdate to string for displaying
-  String readpostdate(Timestamp eventpostdate) {
-    DateTime newpostdate = eventpostdate.toDate();
-    String formattedpostdate =
-        DateFormat('EEE | dd MMM, yyyy', 'en').format(newpostdate);
-    return formattedpostdate;
+  // insert comment into database
+  addComment(String comment) {
+    final userName = userInfo.getfirstName + " " + userInfo.getlastName;
+    print(comment);
+    FirebaseFirestore.instance
+        .collection('comments')
+        .add({'postId': postId, 'comment': comment, 'commentAuthor': userName});
   }
-
-  // insert token into the database
-  _getToken() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final userID = user?.uid;
-    _firebaseMessaging.getToken().then((deviceToken) {
-      print("device token: $deviceToken");
-      // adding to mobile token
-      FirebaseFirestore.instance
-          .collection('mobileToken')
-          .where('userID', isEqualTo: userID)
-          .get()
-          .then((checkSnapshot) {
-        if (checkSnapshot.size > 0) {
-          print("already exists");
-          print("updating token");
-          FirebaseFirestore.instance
-              .collection('mobileToken')
-              .doc(userID)
-              .update({'token': deviceToken})
-              .then((_) => print('Uppostdated'))
-              .catchError((error) => print('Uppostdate failed: $error'));
-        } else {
-          // saving the value if it doesn't exists
-          print("adding");
-          FirebaseFirestore.instance
-              .collection('mobileToken')
-              .add({'token': deviceToken, 'userID': userID});
-        }
-      });
-    });
-  }
-
-
 
   @override
   void initState() {
     selectedMenuItemId = menuWithIcon.items[1].id;
     userInfo = Provider.of<UserData>(context, listen: false);
     initializeDateFormatting('en', null);
-    // _getToken();
     super.initState();
-  }
-
-  buildComments() {
-    return Text(" ");
   }
 
   @override
@@ -134,25 +75,33 @@ class Comments extends StatefulWidget {
           },
         ),
       ),
-
       body: Column(
         children: <Widget>[
-        Expanded(child: buildComments()),
+          Expanded(child: getHomePageBody(context)),
           Divider(),
           ListTile(
             title: TextFormField(
-              controller: commentController ,
+              onChanged: (value) {
+                setState(() {
+                  postComment = value;
+                });
+              },
+              validator: (value) {
+                if (value!.isEmpty)
+                  return 'Comment is required';
+                else
+                  return null;
+              },
+              controller: commentController,
               decoration: InputDecoration(labelText: "Write a comment..."),
             ),
             trailing: OutlineButton(
-              onPressed: () => print('add comment'),
+              onPressed: () => addComment(postComment),
               child: Text("Post"),
             ),
           ),
         ],
-
       ),
-
     );
   }
 
@@ -162,7 +111,7 @@ class Comments extends StatefulWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('comments')
-          // .orderBy('eventpostdate', descending: true)
+          .where('postId', isEqualTo: postId)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError)
