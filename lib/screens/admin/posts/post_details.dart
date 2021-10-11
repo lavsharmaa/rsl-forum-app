@@ -328,7 +328,12 @@ class _AdminEventDetailPageState extends State<AdminEventDetailPage> {
                                 ),
                               ),
                               onPressed: () {
-                                goToCommentScreen(context);
+                                goToCommentScreen(
+                                  context,
+                                  postId: postTitle,
+                                  ownerId: postAuthor,
+                                  mediaUrl: postImageUrl,
+                                );
                               },
                             ),
                           ),
@@ -349,9 +354,15 @@ goBackToPreviousScreen(BuildContext context) {
   Navigator.pop(context);
 }
 
-goToCommentScreen(BuildContext context) {
+goToCommentScreen(BuildContext context, {required String  postId, required String ownerId, required String mediaUrl } ) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => Comments()),
-  );
+    MaterialPageRoute(builder: (context)
+  {
+    return Comments(
+      postId: postId,
+      postOwnerId: ownerId,
+      postMediaUrl: mediaUrl,
+    );
+  }));
 }

@@ -12,11 +12,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
 class Comments extends StatefulWidget {
+  final String postId;
+  final String postOwnerId;
+  final String postMediaUrl;
+
+  Comments({
+    required this.postId,
+    required this.postOwnerId,
+    required this.postMediaUrl,
+});
+
   @override
-  _CommentsState createState() => _CommentsState();
+  CommentsState createState() => CommentsState(
+      postId: this.postId,
+      postOwnerId: this.postOwnerId,
+      postMediaUrl: this.postMediaUrl,
+  );
 }
 
-class _CommentsState extends State<Comments> {
+ class CommentsState extends State<Comments> {
+  TextEditingController commentController = TextEditingController();
+
+  final String postId;
+  final String postOwnerId;
+  final String postMediaUrl;
+
+  // ignore: non_constant_identifier_names
+  CommentsState({
+    required this.postId,
+    required this.postOwnerId,
+    required this.postMediaUrl,
+  });
+
   final DrawerScaffoldController controller = DrawerScaffoldController();
   late int selectedMenuItemId;
   var userInfo;
@@ -64,6 +91,8 @@ class _CommentsState extends State<Comments> {
     });
   }
 
+
+
   @override
   void initState() {
     selectedMenuItemId = menuWithIcon.items[1].id;
@@ -71,6 +100,10 @@ class _CommentsState extends State<Comments> {
     initializeDateFormatting('en', null);
     // _getToken();
     super.initState();
+  }
+
+  buildComments() {
+    return Text(" ");
   }
 
   @override
@@ -101,9 +134,25 @@ class _CommentsState extends State<Comments> {
           },
         ),
       ),
-      body: Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-          child: getHomePageBody(context)),
+
+      body: Column(
+        children: <Widget>[
+        Expanded(child: buildComments()),
+          Divider(),
+          ListTile(
+            title: TextFormField(
+              controller: commentController ,
+              decoration: InputDecoration(labelText: "Write a comment..."),
+            ),
+            trailing: OutlineButton(
+              onPressed: () => print('add comment'),
+              child: Text("Post"),
+            ),
+          ),
+        ],
+
+      ),
+
     );
   }
 
