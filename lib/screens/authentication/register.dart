@@ -714,22 +714,6 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
     );
   }
 
-  // yes-0, no-1, maybe-2
-  int _interestInMembershipRadioValue = 0;
-  void _handleInterestInMembershipRadioValueChange(int? value) {
-    setState(() {
-      _interestInMembershipRadioValue = value!;
-      if (_interestInMembershipRadioValue == 0) {
-        interestInMembership = "Yes";
-      } else if (_interestInMembershipRadioValue == 1) {
-        interestInMembership = "No";
-      } else {
-        interestInMembership = "Maybe";
-      }
-      print("Membership interest selected: $interestInMembership");
-    });
-  }
-
   @override
   void initState() {
     userInfo = userInfo;

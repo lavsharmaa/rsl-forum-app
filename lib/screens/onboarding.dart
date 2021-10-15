@@ -24,11 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     'https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
   ];
   final List<String> images = [
-    'assets/images/about_us/Ywca_spotlight_1.jpg',
-    'assets/images/initiatives/piya/1-walk-for-freedom.jpeg',
-    'assets/images/initiatives/wdu/3-bakery-certificate-competition.jpeg',
-    'assets/images/initiatives/asha_kiran/5-cartoon-making-workshop.png',
-    'assets/images/extras/image20.jpeg',
+    'assets/images/forum_image.png',
   ];
   @override
   void initState() {
@@ -103,7 +99,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '\"BY LOVE, SERVE ONE ANOTHER\"',
+                      '\"Post, Comment & Think Different\"',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
@@ -115,7 +111,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       height: 20,
                     ),
                     Text(
-                      'To empower women at all levels to struggle for justice',
+                      'Share your knowledge with others.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18,

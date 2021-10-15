@@ -150,7 +150,7 @@ class _AboutUsState extends State<AboutUs> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'The Young Women\'s Christian Association (YWCA) was established in 1855, when the movement formed on prayer and service united together and adopted the Blue Triangle as its symbol that signifies the unity and completeness of body, mind and spirit.\n',
+                            'We are currently in our Final Year of Computer Engineering from Don Bosco Institute of Technology. We have developed this project as a part of our subject.\n',
                             style: TextStyle(
                               fontSize: 16,
                               height: 1.25,
@@ -158,7 +158,7 @@ class _AboutUsState extends State<AboutUs> {
                             ),
                           ),
                           Text(
-                            'The history of YWCA dates back to 1875 when the first local association was established in Mumbai. This was followed by the YWCA of India in the year 1896.\n',
+                            'We have developed this application using flutter making it to work both in Android and iOS and connecting people through the means of forum and similar ideas.\n',
                             style: TextStyle(
                               fontSize: 16,
                               height: 1.25,
@@ -191,11 +191,11 @@ class _AboutUsState extends State<AboutUs> {
                                         color: Colors.blue,
                                         decoration: TextDecoration.underline,
                                       ),
-                                      text: "www.ywcabombay.co.in\n",
+                                      text: "Click here\n",
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
                                           var url =
-                                              "https://www.ywcabombay.co.in";
+                                              "https://github.com/lavsharmaa/rsl-forum-app";
                                           if (await canLaunch(url)) {
                                             await launch(url);
                                           } else {

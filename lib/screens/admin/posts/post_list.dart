@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,6 @@ import 'new_post.dart';
 import '../../../drawers_constants/admin_drawer.dart';
 import '../../../models/User.dart';
 import '../../../widgets/constants.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,7 +74,7 @@ class _DiscussionsState extends State<Discussions> {
     selectedMenuItemId = menuWithIcon.items[1].id;
     userInfo = Provider.of<UserData>(context, listen: false);
     initializeDateFormatting('en', null);
-    // _getToken();
+    _getToken();
     super.initState();
   }
 

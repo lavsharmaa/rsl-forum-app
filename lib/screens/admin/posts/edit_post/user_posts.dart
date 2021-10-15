@@ -70,7 +70,7 @@ class _AdminEventsState extends State<AdminEvents> {
 
   @override
   void initState() {
-    selectedMenuItemId = menuWithIcon.items[1].id;
+    selectedMenuItemId = menuWithIcon.items[2].id;
     userInfo = Provider.of<UserData>(context, listen: false);
     initializeDateFormatting('en', null);
     _getToken();

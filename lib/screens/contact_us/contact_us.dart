@@ -242,7 +242,7 @@ class _ContactUsState extends State<ContactUs> {
                 // text: "ANDHERI \n ",
                 text: developerName,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 14,
                   fontFamily: 'CM Sans Serif',
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -259,7 +259,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.black87,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -273,7 +273,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.blue,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -287,7 +287,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.black87,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -301,7 +301,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.blue,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -315,7 +315,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.black87,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -329,7 +329,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.blue,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -338,7 +338,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.black87,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                   TextSpan(
@@ -351,7 +351,7 @@ class _ContactUsState extends State<ContactUs> {
                       fontFamily: 'Montserrat',
                       color: Colors.blue,
                       fontWeight: FontWeight.w400,
-                      fontSize: 11.5,
+                      fontSize: 12.5,
                     ),
                   ),
                 ],

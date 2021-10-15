@@ -12,7 +12,6 @@ import '../../models/User.dart';
 import '../../drawers_constants/user_drawer.dart';
 import '../../widgets/alert_dialogs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -286,7 +285,6 @@ class _EventsState extends State<Events> {
                           SizedBox(height: 5),
                           // Resource person
                           Text(
-                            // TODO: Resource person in DB
                             'Resource Person: Sharon Pires',
                             style: TextStyle(
                               fontSize: 12.0,
@@ -308,7 +306,6 @@ class _EventsState extends State<Events> {
                               SizedBox(height: 5),
                               // Event time
                               Text(
-                                // TODO: Time in 12 hr format (AM/PM)
                                 'Time: ' + (document['eventTime']),
                                 style: TextStyle(
                                   fontSize: 14.0,

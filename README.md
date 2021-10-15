@@ -39,3 +39,10 @@ Checked and working fine
 # v0.1.5
 - Post like done
 - Post Comment done
+
+# v0.1.6
+- App icon
+- App name
+- Splash screen
+- About us
+- Contact us
