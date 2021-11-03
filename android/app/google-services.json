@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67812818271",
+    "project_id": "rsl-forum-app",
+    "storage_bucket": "rsl-forum-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67812818271:android:66092bcb9569d754f48aea",
+        "android_client_info": {
+          "package_name": "com.example.rsl_forum_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67812818271-n32o74d6nam6agcddo9s4s6ku0vvmv5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9bYXmt9viMg907JLX5xStBqERgZLpkKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67812818271-n32o74d6nam6agcddo9s4s6ku0vvmv5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
